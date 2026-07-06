@@ -7,6 +7,7 @@ import os
 import json
 from datetime import datetime
 from fastapi import FastAPI, HTTPException, Response
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import List, Optional
@@ -56,9 +57,32 @@ class ReportRequest(BaseModel):
 def favicon():
     return Response(status_code=204)
 
-@app.get("/")
+@app.get("/api/stats", summary="GetFish 탐지 엔진 실시간 통계")
+def get_stats():
+    reports_file = os.path.join(DATA_DIR, "reports.json")
+    report_count = 0
+    if os.path.exists(reports_file):
+        try:
+            with open(reports_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                report_count = len(data.get("reports", []))
+        except Exception:
+            pass
+    return {
+        "whitelist_count": len(detector.whitelist),
+        "blacklist_count": len(detector.blacklist),
+        "report_count": report_count,
+        "engine_status": "ONLINE",
+        "version": "1.0.0"
+    }
+
+@app.get("/", response_class=HTMLResponse, summary="GetFish 공식 홈페이지 및 실시간 대시보드")
 def root():
-    return {"message": "🎣 GetFish Phishing Detection Engine is running! Visit /docs for Swagger UI."}
+    index_path = os.path.join(os.path.dirname(__file__), "static", "index.html")
+    if os.path.exists(index_path):
+        with open(index_path, "r", encoding="utf-8") as f:
+            return f.read()
+    return "<h1>🎣 GetFish Phishing Detection Engine is running! Visit <a href='/docs'>/docs</a> for Swagger UI.</h1>"
 
 @app.post("/api/analyze", response_model=AnalyzeResponse, summary="웹페이지 피싱 위험도 실시간 검증")
 def analyze_page(request: PageAnalyzeRequest):

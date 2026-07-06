@@ -106,6 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Visit Official Site Button
   document.getElementById('btn-dashboard').addEventListener('click', () => {
-    chrome.tabs.create({ url: 'https://pay.naver.com' });
+    chrome.tabs.create({ url: 'https://getfish.onrender.com' });
   });
 });

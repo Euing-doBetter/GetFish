@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GetFish | 온라인 피싱 및 사칭 도메인 실시간 차단 솔루션</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0A0F1D;
+      --bg-card: rgba(18, 25, 43, 0.65);
+      --border-color: rgba(255, 255, 255, 0.12);
+      --primary: #3B82F6;
+      --primary-glow: rgba(59, 130, 246, 0.4);
+      --accent-red: #EF4444;
+      --accent-red-glow: rgba(239, 68, 68, 0.4);
+      --accent-green: #10B981;
+      --accent-green-glow: rgba(16, 185, 129, 0.4);
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(239, 68, 68, 0.12) 0%, transparent 40%),
+        linear-gradient(to bottom, transparent, rgba(10, 15, 29, 0.9));
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Grid Background Pattern */
+    .bg-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: 50px 50px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      z-index: -1;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 5%;
+      max-width: 1300px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, #60A5FA, #3B82F6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-btn {
+      padding: 10px 20px;
+      border-radius: 99px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3B82F6, #2563EB);
+      color: white;
+      box-shadow: 0 4px 20px var(--primary-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px var(--primary-glow);
+    }
+
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 5%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 40px 0;
+    }
+
+    .badge-tag {
+      padding: 6px 16px;
+      border-radius: 99px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #60A5FA;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      max-width: 850px;
+      letter-spacing: -1px;
+    }
+
+    h1 .gradient-text {
+      background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #6366F1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 650px;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      width: 100%;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+    }
+
+    .stat-card.green::before { background: var(--accent-green); }
+    .stat-card.red::before { background: var(--accent-red); }
+    .stat-card.blue::before { background: var(--primary); }
+
+    .stat-title {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    /* Interactive Live Demo Box */
+    .demo-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(24px);
+      border-radius: 24px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .demo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .demo-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .url-input {
+      flex: 1;
+      background: rgba(10, 15, 29, 0.8);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 16px 20px;
+      font-size: 1rem;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .url-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .btn-test {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      padding: 0 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px var(--accent-green-glow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .btn-test:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px var(--accent-green-glow);
+    }
+
+    /* Result Card */
+    .result-card {
+      display: none;
+      padding: 24px;
+      border-radius: 16px;
+      background: rgba(10, 15, 29, 0.9);
+      border: 1px solid var(--border-color);
+      animation: fadeIn 0.4s ease;
+    }
+
+    .result-card.phishing {
+      border-color: var(--accent-red);
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(10, 15, 29, 0.9));
+    }
+
+    .result-card.safe {
+      border-color: var(--accent-green);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(10, 15, 29, 0.9));
+    }
+
+    .result-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .result-reason {
+      color: var(--text-muted);
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 5%;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-color);
+      margin-top: auto;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.4rem; }
+      .input-group { flex-direction: column; }
+      .btn-test { padding: 16px; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <header>
+    <a href="/" class="logo">
+      <span>🎣 GetFish</span>
+    </a>
+    <div class="nav-links">
+      <a href="/docs" class="nav-btn btn-outline" target="_blank">
+        <span>📚</span> Swagger API
+      </a>
+      <a href="/api/reports" class="nav-btn btn-outline" target="_blank">
+        <span>🚨</span> 제보 대기열
+      </a>
+      <a href="https://github.com/Euing-doBetter/GetFish" class="nav-btn btn-primary" target="_blank">
+        <span>💻</span> GitHub
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="badge-tag">⚡️ Real-Time Cyber Security Engine</span>
+      <h1>
+        온라인 결제 피싱 및 사칭 사이트<br>
+        <span class="gradient-text">0.1초 실시간 차단 솔루션</span>
+      </h1>
+      <p>
+        기존 백신이 잡지 못하는 신종 오타 도메인(Zero-day Typosquatting)부터 불법 주민등록번호·카드비밀번호 탈취 시도까지, 4단계 하이브리드 탐지 엔진으로 완벽하게 낚아챕니다.
+      </p>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-card green">
+        <div class="stat-title"><span>🟢</span> 공식 화이트리스트 도메인</div>
+        <div class="stat-number" id="wl-count">-</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-title"><span>🔴</span> 악성 사칭 블랙리스트 DB</div>
+        <div class="stat-number" id="bl-count">-</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-title"><span>👥</span> 실시간 제보 검수 대기열</div>
+        <div class="stat-number" id="rp-count">-</div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <div class="demo-header">
+        <h2>⚡️ AI 피싱 탐지 엔진 실시간 데모</h2>
+        <span style="color: var(--text-muted); font-size: 0.9rem;">의심되는 도메인이나 URL을 입력하고 엔진 반응을 확인하세요.</span>
+      </div>
+      
+      <div class="input-group">
+        <input type="text" id="test-url" class="url-input" placeholder="예: navr-pay-secure.com, c0upang-sale.kr, toss.im" value="c0upang-sale.kr">
+        <button id="btn-analyze" class="btn-test">
+          <span>🔍</span> 실시간 검증하기
+        </button>
+      </div>
+
+      <div id="result-box" class="result-card">
+        <div id="result-title" class="result-title"></div>
+        <div id="result-reason" class="result-reason"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release.</p>
+  </footer>
+
+  <script>
+    // Fetch live statistics from backend
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/stats');
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById('wl-count').textContent = data.whitelist_count + '개';
+          document.getElementById('bl-count').textContent = data.blacklist_count + '개';
+          document.getElementById('rp-count').textContent = data.report_count + '건';
+        }
+      } catch(e) {
+        console.error('Stats load error:', e);
+      }
+    }
+    loadStats();
+
+    // Live Test Box Handler
+    document.getElementById('btn-analyze').addEventListener('click', async () => {
+      const inputVal = document.getElementById('test-url').value.trim();
+      if (!inputVal) return;
+
+      let domain = inputVal;
+      let url = inputVal;
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        url = 'https://' + url;
+      }
+      try {
+        domain = new URL(url).hostname;
+      } catch(e) {}
+
+      const btn = document.getElementById('btn-analyze');
+      const resultBox = document.getElementById('result-box');
+      
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳</span> 분석 중...';
+      resultBox.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            url: url,
+            domain: domain,
+            title: '라이브 데모 테스트 페이지',
+            formActions: [],
+            inputTypes: []
+          })
+        });
+
+        const result = await res.json();
+        resultBox.style.display = 'block';
+
+        if (result.is_phishing) {
+          resultBox.className = 'result-card phishing';
+          document.getElementById('result-title').innerHTML = '🚨 ' + (result.badge_text || '피싱 및 사칭 도메인 감지됨!');
+          document.getElementById('result-title').style.color = '#EF4444';
+          document.getElementById('result-reason').innerHTML = `
+            <strong>차단 사유:</strong> ${result.reason}<br>
+            <span style="color: #60A5FA; display: inline-block; margin-top: 8px;">🛡️ 안전 대피 경로: <code>${result.redirect_url || 'https://pay.naver.com'}</code></span>
+          `;
+        } else {
+          resultBox.className = 'result-card safe';
+          document.getElementById('result-title').innerHTML = '🟢 안전한 공식 웹사이트입니다';
+          document.getElementById('result-title').style.color = '#10B981';
+          document.getElementById('result-reason').innerHTML = `
+            <strong>도메인 [${domain}]:</strong> 공식 화이트리스트 DB에 등록된 안전한 사이트이거나, 알고리즘 분석 결과 사칭 위험이 발견되지 않았습니다.
+          `;
+        }
+      } catch(e) {
+        alert('API 서버와 통신할 수 없습니다.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>🔍</span> 실시간 검증하기';
+      }
+    });
+  </script>
+</body>
+</html>
