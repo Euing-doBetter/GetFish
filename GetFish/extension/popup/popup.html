@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GetFish 보안 상태</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <div class="logo-area">
+        <span class="logo-icon">🎣</span>
+        <h1 class="logo-text">Get<span class="highlight">Fish</span></h1>
+      </div>
+      <span class="version-tag">MVP v1.0</span>
+    </header>
+
+    <main class="status-card" id="status-card">
+      <div class="status-icon" id="status-icon">🟢</div>
+      <h2 class="status-title" id="status-title">안전한 사이트입니다</h2>
+      <p class="status-domain" id="status-domain">현재 도메인 검증 완료</p>
+    </main>
+
+    <section class="stats-section">
+      <div class="stat-box">
+        <span class="stat-label">🛡️ 누적 피싱 차단 횟수</span>
+        <span class="stat-value" id="stat-blocked-count">0</span><span class="stat-unit">회</span>
+      </div>
+    </section>
+
+    <section class="engine-info">
+      <div class="info-row">
+        <span>⚙️ 검증 엔진:</span>
+        <span class="info-val">4단계 하이브리드 & Kill-Switch</span>
+      </div>
+      <div class="info-row">
+        <span>🔌 백엔드 연결:</span>
+        <span class="info-val" id="backend-status-text">확인 중...</span>
+      </div>
+    </section>
+
+    <footer class="popup-footer">
+      <button class="btn-report" id="btn-report">
+        <span>🚨</span> 의심 사이트 제보하기
+      </button>
+      <button class="btn-dashboard" id="btn-dashboard">
+        공식 웹사이트 방문
+      </button>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+/* GetFish Phishing Warning Overlay - Vanilla CSS Glassmorphism */
+
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap');
+
+#getfish-killswitch-overlay {
+  all: initial;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 2147483647 !important; /* Maximum possible z-index in browser */
+  background: rgba(15, 23, 42, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
+  animation: getfish-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  box-sizing: border-box !important;
+  padding: 20px !important;
+}
+
+@keyframes getfish-fade-in {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes getfish-pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.getfish-modal-card {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98)) !important;
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+  border-radius: 24px !important;
+  padding: 40px !important;
+  max-width: 520px !important;
+  width: 100% !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(239, 68, 68, 0.25) !important;
+  text-align: center !important;
+  color: #f8fafc !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.getfish-modal-card::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 6px !important;
+  background: linear-gradient(90deg, #ef4444, #f97316, #ef4444) !important;
+  background-size: 200% 100% !important;
+  animation: getfish-shimmer 3s linear infinite !important;
+}
+
+@keyframes getfish-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+.getfish-icon-wrapper {
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 50% !important;
+  background: rgba(239, 68, 68, 0.15) !important;
+  border: 2px solid rgba(239, 68, 68, 0.5) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto 24px auto !important;
+  animation: getfish-pulse-glow 2s infinite !important;
+}
+
+.getfish-icon-text {
+  font-size: 38px !important;
+  line-height: 1 !important;
+  user-select: none !important;
+}
+
+.getfish-title {
+  font-size: 26px !important;
+  font-weight: 800 !important;
+  color: #f8fafc !important;
+  margin: 0 0 12px 0 !important;
+  letter-spacing: -0.5px !important;
+  line-height: 1.3 !important;
+}
+
+.getfish-badge {
+  display: inline-block !important;
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #fca5a5 !important;
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+  padding: 6px 14px !important;
+  border-radius: 9999px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  margin-bottom: 20px !important;
+  letter-spacing: 0.5px !important;
+}
+
+.getfish-reason-box {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid rgba(148, 163, 184, 0.15) !important;
+  border-radius: 16px !important;
+  padding: 20px !important;
+  margin-bottom: 28px !important;
+  text-align: left !important;
+}
+
+.getfish-reason-title {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #38bdf8 !important;
+  margin: 0 0 8px 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.getfish-reason-text {
+  font-size: 15px !important;
+  color: #cbd5e1 !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+  font-weight: 400 !important;
+}
+
+.getfish-btn-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.getfish-btn-safe {
+  all: initial;
+  cursor: pointer !important;
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  color: #ffffff !important;
+  font-family: 'Pretendard', 'Inter', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  padding: 16px 24px !important;
+  border-radius: 14px !important;
+  border: none !important;
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4) !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  text-decoration: none !important;
+}
+
+.getfish-btn-safe:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 15px 30px -5px rgba(16, 185, 129, 0.6) !important;
+  background: linear-gradient(135deg, #34d399, #10b981) !important;
+}
+
+.getfish-btn-ignore {
+  all: initial;
+  cursor: pointer !important;
+  background: transparent !important;
+  color: #64748b !important;
+  font-family: 'Pretendard', 'Inter', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 10px !important;
+  border: none !important;
+  text-decoration: underline !important;
+  transition: color 0.2s ease !important;
+  display: block !important;
+  text-align: center !important;
+}
+
+.getfish-btn-ignore:hover {
+  color: #94a3b8 !important;
+}
