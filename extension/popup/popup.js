@@ -58,10 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Check if FastAPI backend is reachable
-  fetch('http://localhost:8000/docs', { method: 'HEAD' })
+  fetch('https://getfish.onrender.com/docs', { method: 'HEAD' })
     .then((res) => {
       if (res.ok) {
-        backendStatusEl.textContent = '🟢 온라인 (localhost:8000)';
+        backendStatusEl.textContent = '🟢 온라인 (Render 클라우드)';
         backendStatusEl.style.color = '#10B981';
       } else {
         backendStatusEl.textContent = '🟡 응답 지연';
@@ -89,14 +89,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch(e) { domain = url; }
       }
 
-      fetch('http://localhost:8000/api/report', {
+      fetch('https://getfish.onrender.com/api/report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: url, domain: domain, reason: '사용자 팝업 의심 제보' })
       })
       .then((res) => res.json())
       .then((data) => {
-        alert(`✅ [제보 접수 완료]\n백엔드 감시 서버(localhost:8000)에 해당 사이트[${domain}]가 실시간으로 접수되었습니다!\n\n(관리자 2단계 검증 후 실시간 블랙리스트 DB에 반영됩니다.)`);
+        alert(`✅ [제보 접수 완료]\nRender 클라우드 감시 서버(getfish.onrender.com)에 해당 사이트[${domain}]가 실시간으로 접수되었습니다!\n\n(관리자 2단계 검증 후 실시간 블랙리스트 DB에 반영됩니다.)`);
       })
       .catch(() => {
         alert(`🚨 [로컬 제보 모드]\n현재 접속 중인 사이트[${domain}] 제보가 로컬 큐에 임시 저장되었습니다.\n(백엔드 서버 연결 시 자동 전송됩니다.)`);

@@ -133,7 +133,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     chrome.action.setBadgeBackgroundColor({ color: '#F59E0B' });
     chrome.action.setBadgeText({ text: '🟡' });
 
-    fetch('http://localhost:8000/api/analyze', {
+    fetch('https://getfish.onrender.com/api/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
