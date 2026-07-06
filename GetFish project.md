@@ -45,10 +45,16 @@
 
 3. **기능 C: 확장 프로그램 팝업 상태바 (Status UI) & 실시간 제보 시스템**
    - **현재 활성 탭 실시간 동기화 (Active Tab Real-Time Sync):** 팝업 아이콘 클릭 시 전역 메모리에 저장된 과거 주소가 아닌, 브라우저에서 사용자가 현재 보고 있는 **활성 탭(Active Tab)의 도메인을 즉시 조회**하여 해당 페이지의 실시간 안전 상태(🟢 안전 / 🟡 주의 / 🔴 위험)를 1:1로 정확하게 매핑하여 표시
-   - **크라우드 소싱 기반 실시간 의심 사이트 제보 (Crowd-Sourcing Report API):** 단순 UI 껍데기가 아닌 백엔드 REST API(`POST /api/report`)와 100% 실시간 연동! 사용자가 **[🚨 의심 사이트 제보하기]** 클릭 시 현재 활성 탭의 URL 및 도메인 메타데이터가 백엔드 감시 서버 대기열(Queue)로 전송되어, 관리자 2단계 검증 후 전체 블랙리스트 DB에 실시간 반영되는 사용자 참여형 집단 방호 파이프라인
+   - **크라우드 소싱 기반 실시간 의심 사이트 제보 (Crowd-Sourcing Report API):** 단순 UI 껍데기가 아닌 백엔드 REST API(`POST /api/report`)와 100% 실시간 연동! 사용자가 **[🚨 의심 사이트 제보하기]** 클릭 시 현재 활성 탭의 URL 및 도메인 메타데이터가 백엔드 감시 서버 영구 대기열(`data/reports.json`)로 전송되어 기록됨
+   - **[관리자 대응 4단계 표준 프로세스 (SOP)]:** 악의적인 경쟁사 음해 및 정상 사이트 오탐(False Positive) 방지를 위해 **Human-in-the-Loop (사람이 개입하는 최종 승인 체계)** 수립:
+     1. **제보 모니터링:** `GET /api/reports` REST API를 통해 미검수 대기열(`status: "pending_verification"`) 실시간 조회
+     2. **2단계 안전 검증:** 도메인 사칭 여부 및 가상 환경(Sandbox)에서 과도한 개인·금융정보 요구 여부 실무 검증
+     3. **블랙리스트 DB 실시간 동기화:** `blacklist.json`에 도메인 추가 시, 전 세계 GetFish 사용자들에게 **실시간 전역 차단(🔴 피싱 위험 차단됨)** 즉시 동기화
+     4. **위협 인텔리전스 공유:** KISA(한국인터넷진흥원 보호나라 118) 및 구글 세이프 브라우징에 피싱 URL 신고 및 도메인 차단 요청
    - 보호한 피싱 사이트 누적 횟수 통계 및 백엔드 검증 서버(`localhost:8000`)와의 실시간 연결 상태 모니터링
 
 ### 📌 추가 예정 기능 (Backlog / Phase 2)
+- **🤖 AI 기반 샌드박스 자동 검증 로봇 (Hybrid AI-Human Pipeline):** 대량 제보 발생 시 가상 헤드리스 브라우저가 자동 접속하여 비전 모델/DOM 분석 후, 확신도 99% 이상의 확실한 피싱은 무인 자동 차단하고 70~95%의 고난도 위협만 관리자가 검수하는 자동화 파이프라인
 - **📱 모바일 플랫폼 확장 (Cross-Platform Mobile Security):** PC 크롬 확장프로그램의 검증 엔진(FastAPI)을 그대로 활용하여 iOS(Safari Web Extension) 및 안드로이드(삼성 인터넷 애드온 / URL 공유 검증 앱) 플랫폼으로 서비스 확장
 - **AI/ML 기반 UI/로고 사칭 탐지:** 웹페이지 캡처 이미지나 로고(OCR/비전 모델)를 분석하여 공식 브랜드 로고를 도용한 경우 탐지
 
@@ -94,12 +100,13 @@ graph TD
 
 - **Frontend (Chrome Extension):**
   - **Manifest V3:** 최신 구글 확장 프로그램 표준 준수 (`background.js`, `content.js`)
-  - **UI/Styling:** Vanilla HTML/JS + **Vanilla CSS** (Vibrant color palette, Glassmorphism, Smooth Micro-animations 적용으로 프리미엄 UI 구현)
+  - **UI/Styling:** Vanilla HTML/JS + **Vanilla CSS** (State-of-the-Art Cybersecurity Premium Glassmorphism 적용: 딥 옵시디언 글래스 블러 25px, 크림슨 레드 네온 글로우 테두리, 레이더 파동 애니메이션 사이렌, 애플/스트라이프 스타일 에메랄드 그라디언트 버튼으로 차세대 사이버 보안 UI 구현)
 - **Backend (API Server):**
   - **Language:** Python 3.10+
   - **Framework:** **FastAPI** (비동기 처리 최적화, 자동 API 문서화 `/docs` 제공)
     - `POST /api/analyze` : 웹페이지 피싱 위험도 실시간 하이브리드 검증
-    - `POST /api/report` : 의심 피싱 사이트 크라우드 소싱 제보 수신 및 접수
+    - `POST /api/report` : 의심 피싱 사이트 크라우드 소싱 제보 수신 및 영구 큐(`reports.json`) 기록
+    - `GET /api/reports` : 관리자용 의심 피싱 사이트 미검수 대기열 조회 API
     - `GET /api/stats` : 누적 탐지 통계 및 엔진 상태 조회
   - **Algorithm & Rules:** 
     - `Sensitive Data Kill-Switch` (주민등록번호 및 카드 비밀번호 요구 100% 차단)
@@ -107,7 +114,7 @@ graph TD
     - `Brand Keyword Matching` (비유사 임의 도메인의 브랜드 사칭 탐지)
     - `Form Action / Endpoint Analyzer` (결제 데이터 전송 경로 검증)
 - **Database / Storage:**
-  - **JSON DB & SQLite (`getfish.db`):** 경량화 및 빠른 프로토타입 구현을 위해 JSON 기반 화이트리스트/블랙리스트 및 브랜드 타겟 맵핑 저장
+  - **JSON DB & SQLite (`getfish.db`):** 경량화 및 빠른 프로토타입 구현을 위해 JSON 기반 화이트리스트/블랙리스트, 브랜드 타겟 맵핑, 및 크라우드 소싱 제보 대기열(`reports.json`) 저장
 - **Infra / Deploy:**
   - Localhost (MVP 데모용) 또는 Render / Railway / AWS EC2 무료 티어를 활용한 백엔드 배포
 

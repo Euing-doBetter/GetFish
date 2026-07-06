@@ -80,7 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
       let url = 'unknown-url';
       if (currentTab && currentTab.url) {
         url = currentTab.url;
-        try { domain = new URL(url).hostname; } catch(e) { domain = url; }
+        try {
+          if (url.startsWith('file://')) {
+            domain = '로컬 데모 페이지 (' + url.split('/').pop() + ')';
+          } else {
+            domain = new URL(url).hostname;
+          }
+        } catch(e) { domain = url; }
       }
 
       fetch('http://localhost:8000/api/report', {

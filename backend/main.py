@@ -4,6 +4,8 @@ Provides real-time phishing analysis REST API and Swagger documentation
 """
 
 import os
+import json
+from datetime import datetime
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -65,12 +67,50 @@ def analyze_page(request: PageAnalyzeRequest):
 
 @app.post("/api/report", summary="의심 피싱 사이트 크라우드 소싱 제보 접수")
 def report_page(request: ReportRequest):
-    print(f"🚨 [CROWD-SOURCING REPORT] Suspicious site reported: {request.domain} ({request.url}) - Reason: {request.reason}")
+    log_msg = f"🚨 [CROWD-SOURCING REPORT] Suspicious site reported: {request.domain} ({request.url}) - Reason: {request.reason}"
+    print(log_msg)
+    
+    # Save to reports.json for admin verification queue
+    reports_file = os.path.join(DATA_DIR, "reports.json")
+    reports_data = []
+    if os.path.exists(reports_file):
+        try:
+            with open(reports_file, "r", encoding="utf-8") as f:
+                reports_data = json.load(f)
+        except Exception:
+            reports_data = []
+            
+    report_entry = {
+        "timestamp": datetime.now().isoformat(),
+        "domain": request.domain,
+        "url": request.url,
+        "reason": request.reason,
+        "status": "pending_verification"
+    }
+    reports_data.append(report_entry)
+    
+    try:
+        with open(reports_file, "w", encoding="utf-8") as f:
+            json.dump(reports_data, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"Failed to save report log: {e}")
+
     return {
         "success": True,
         "status": "received",
         "message": f"의심 도메인 '{request.domain}'에 대한 제보가 백엔드 서버에 성공적으로 접수되었습니다. 2단계 검증 후 블랙리스트 DB에 반영됩니다."
     }
+
+@app.get("/api/reports", summary="관리자용 의심 피싱 사이트 제보 대기열 조회")
+def get_reports():
+    reports_file = os.path.join(DATA_DIR, "reports.json")
+    if os.path.exists(reports_file):
+        try:
+            with open(reports_file, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return []
 
 @app.get("/api/stats", summary="GetFish 누적 탐지 통계 조회")
 def get_stats():
@@ -84,4 +124,5 @@ def get_stats():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)

@@ -64,16 +64,26 @@ class PhishingDetector:
             brand_name = brand.get("name")
             redirect_url = brand.get("redirect_url")
             official_domains = brand.get("official_domains", [])
+            keywords = brand.get("keywords", [])
 
+            # 3-A. Brand Keyword in Domain Check (e.g., 'toss-pay-auth.kr', 'naver-pay-login.com')
+            for kw in keywords:
+                if len(kw) >= 3 and kw.lower() in domain and domain not in official_domains and not any(w in domain for w in self.whitelist):
+                    return {
+                        "is_phishing": True,
+                        "score": 90,
+                        "reason": f"도메인 주소(<strong>{domain}</strong>)에 공식 브랜드명(<strong>{kw}</strong>)을 무단 포함하여 사칭하고 있습니다.<br/><strong>{brand_name}</strong> 공식 서비스가 아닌 피싱/스미싱 사이트입니다.",
+                        "badge_text": "🚨 브랜드 도메인 사칭",
+                        "redirect_url": redirect_url
+                    }
+
+            # 3-B. Levenshtein / String Similarity Check (e.g., 'naevr.com' vs 'naver.com')
             for official_dom in official_domains:
-                # Check string similarity using Levenshtein distance
-                # E.g., 'navr-pay.com' vs 'naver.com'
                 dist = Levenshtein.distance(domain, official_dom)
                 similarity = fuzz.ratio(domain, official_dom)
 
-                # If domain is very similar to an official domain (e.g. similarity > 75% or distance <= 3)
-                # but is NOT exact match
-                if (similarity >= 72 or dist <= 3) and domain not in official_domains:
+                # Require high similarity (>= 85%) AND small distance (<= 2) to prevent false positives like render.com vs naver.com
+                if (similarity >= 85 and dist <= 2) and domain not in official_domains:
                     return {
                         "is_phishing": True,
                         "score": 85,

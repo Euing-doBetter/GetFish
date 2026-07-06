@@ -60,6 +60,27 @@
     "kbs.co.kr",
     "imbc.com",
     "sbs.co.kr",
-    "jtbc.co.kr"
+    "jtbc.co.kr",
+    "render.com",
+    "onrender.com",
+    "railway.app",
+    "koyeb.app",
+    "heroku.com",
+    "fly.io",
+    "vercel.app",
+    "netlify.app",
+    "github.com",
+    "github.io",
+    "gitlab.com",
+    "bitbucket.org",
+    "stackoverflow.com",
+    "npmjs.com",
+    "pypi.org",
+    "microsoft.com",
+    "apple.com",
+    "amazon.com",
+    "aws.amazon.com",
+    "localhost",
+    "127.0.0.1"
   ]
 }
