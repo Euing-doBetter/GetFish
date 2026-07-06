@@ -6,7 +6,7 @@ Provides real-time phishing analysis REST API and Swagger documentation
 import os
 import json
 from datetime import datetime
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import List, Optional
@@ -51,6 +51,10 @@ class ReportRequest(BaseModel):
     url: str = Field(..., description="의심되는 웹페이지 전체 URL")
     domain: str = Field(..., description="의심 도메인 (예: c0upang-sale.kr)")
     reason: Optional[str] = Field("사용자 의심 제보", description="제보 사유")
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    return Response(status_code=204)
 
 @app.get("/")
 def root():
