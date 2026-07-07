@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GetFish | 온라인 피싱 및 사칭 도메인 실시간 차단 솔루션</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --bg-dark: #0A0F1D;
@@ -34,7 +37,7 @@
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
-      background-image: 
+      background-image:
         radial-gradient(circle at 15% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
         radial-gradient(circle at 85% 80%, rgba(239, 68, 68, 0.12) 0%, transparent 40%),
         linear-gradient(to bottom, transparent, rgba(10, 15, 29, 0.9));
@@ -50,7 +53,7 @@
       width: 100%;
       height: 100%;
       background-size: 50px 50px;
-      background-image: 
+      background-image:
         linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
       z-index: -1;
@@ -218,9 +221,17 @@
       height: 4px;
     }
 
-    .stat-card.green::before { background: var(--accent-green); }
-    .stat-card.red::before { background: var(--accent-red); }
-    .stat-card.blue::before { background: var(--primary); }
+    .stat-card.green::before {
+      background: var(--accent-green);
+    }
+
+    .stat-card.red::before {
+      background: var(--accent-red);
+    }
+
+    .stat-card.blue::before {
+      background: var(--primary);
+    }
 
     .stat-title {
       font-size: 0.95rem;
@@ -350,8 +361,15 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     footer {
@@ -364,12 +382,22 @@
     }
 
     @media (max-width: 768px) {
-      h1 { font-size: 2.4rem; }
-      .input-group { flex-direction: column; }
-      .btn-test { padding: 16px; justify-content: center; }
+      h1 {
+        font-size: 2.4rem;
+      }
+
+      .input-group {
+        flex-direction: column;
+      }
+
+      .btn-test {
+        padding: 16px;
+        justify-content: center;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="bg-grid"></div>
 
@@ -398,7 +426,8 @@
         <span class="gradient-text">0.1초 실시간 차단 솔루션</span>
       </h1>
       <p>
-        기존 백신이 잡지 못하는 신종 오타 도메인(Zero-day Typosquatting)부터 불법 주민등록번호·카드비밀번호 탈취 시도까지, 4단계 하이브리드 탐지 엔진으로 완벽하게 낚아챕니다.
+        기존 백신이 잡지 못하는 신종 오타 도메인(Zero-day Typosquatting)부터 <br>불법 주민등록번호·카드비밀번호 탈취 시도까지, 4단계 하이브리드 탐지 엔진으로<br> 완벽하게
+        낚아챕니다.
       </p>
     </section>
 
@@ -422,9 +451,10 @@
         <h2>⚡️ AI 피싱 탐지 엔진 실시간 데모</h2>
         <span style="color: var(--text-muted); font-size: 0.9rem;">의심되는 도메인이나 URL을 입력하고 엔진 반응을 확인하세요.</span>
       </div>
-      
+
       <div class="input-group">
-        <input type="text" id="test-url" class="url-input" placeholder="예: navr-pay-secure.com, c0upang-sale.kr, toss.im" value="c0upang-sale.kr">
+        <input type="text" id="test-url" class="url-input"
+          placeholder="예: navr-pay-secure.com, c0upang-sale.kr, toss.im" value="c0upang-sale.kr">
         <button id="btn-analyze" class="btn-test">
           <span>🔍</span> 실시간 검증하기
         </button>
@@ -452,7 +482,7 @@
           document.getElementById('bl-count').textContent = data.blacklist_count + '개';
           document.getElementById('rp-count').textContent = data.report_count + '건';
         }
-      } catch(e) {
+      } catch (e) {
         console.error('Stats load error:', e);
       }
     }
@@ -470,11 +500,11 @@
       }
       try {
         domain = new URL(url).hostname;
-      } catch(e) {}
+      } catch (e) { }
 
       const btn = document.getElementById('btn-analyze');
       const resultBox = document.getElementById('result-box');
-      
+
       btn.disabled = true;
       btn.innerHTML = '<span>⏳</span> 분석 중...';
       resultBox.style.display = 'none';
@@ -511,7 +541,7 @@
             <strong>도메인 [${domain}]:</strong> 공식 화이트리스트 DB에 등록된 안전한 사이트이거나, 알고리즘 분석 결과 사칭 위험이 발견되지 않았습니다.
           `;
         }
-      } catch(e) {
+      } catch (e) {
         alert('API 서버와 통신할 수 없습니다.');
       } finally {
         btn.disabled = false;
@@ -520,4 +550,5 @@
     });
   </script>
 </body>
+
 </html>
