@@ -146,7 +146,14 @@ def get_reports():
     if os.path.exists(reports_file):
         try:
             with open(reports_file, "r", encoding="utf-8") as f:
-                return json.load(f)
+                reports = json.load(f)
+                # Auto-check status against current live blacklist DB
+                current_blacklist = detector._load_json("blacklist.json", "blacklist") if hasattr(detector, "_load_json") else detector.blacklist
+                for report in reports:
+                    domain = report.get("domain", "").strip().lower()
+                    if domain and any(b.lower() in domain or domain in b.lower() for b in current_blacklist):
+                        report["status"] = "blocked"
+                return reports
         except Exception:
             pass
     return []
