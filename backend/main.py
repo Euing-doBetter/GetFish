@@ -16,7 +16,7 @@ from engine.detector import PhishingDetector
 app = FastAPI(
     title="GetFish Phishing Detection API",
     description="온라인 결제 피싱, 사칭 도메인(Typosquatting), 및 이상 행동을 탐지하는 실시간 백엔드 API",
-    version="1.0.0"
+    version="1.0.1"
 )
 
 # Enable CORS for Chrome Extension requests (<all_urls>)
@@ -65,15 +65,18 @@ def get_stats():
         try:
             with open(reports_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
-                report_count = len(data.get("reports", []))
+                report_count = len(data) if isinstance(data, list) else len(data.get("reports", []))
         except Exception:
             pass
     return {
+        "status": "active",
+        "engine_status": "ONLINE",
+        "version": "1.0.1",
+        "engine_version": "v1.0.1-hybrid",
         "whitelist_count": len(detector.whitelist),
         "blacklist_count": len(detector.blacklist),
-        "report_count": report_count,
-        "engine_status": "ONLINE",
-        "version": "1.0.0"
+        "target_brands_count": len(detector.brands),
+        "report_count": report_count
     }
 
 @app.get("/", response_class=HTMLResponse, summary="GetFish 공식 홈페이지 및 실시간 대시보드")
@@ -140,15 +143,6 @@ def get_reports():
             pass
     return []
 
-@app.get("/api/stats", summary="GetFish 누적 탐지 통계 조회")
-def get_stats():
-    return {
-        "status": "active",
-        "engine_version": "v1.0.0-hybrid",
-        "whitelist_count": len(detector.whitelist),
-        "blacklist_count": len(detector.blacklist),
-        "target_brands_count": len(detector.brands)
-    }
 
 if __name__ == "__main__":
     import uvicorn
