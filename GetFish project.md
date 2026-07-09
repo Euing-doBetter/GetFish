@@ -73,10 +73,12 @@ graph TD
     subgraph Backend ["Python Backend Server"]
         API["FastAPI Server<br/>(REST API & Swagger UI)"]
         Engine["Phishing Detection Engine<br/>(Levenshtein / 이상행동 / 사칭 분석)"]
+        Dash["Reports Dashboard (/reports)<br/>(글래스모피즘 제보 대기열 UI)"]
     end
 
     subgraph Storage ["Data Storage"]
         DB[("JSON / SQLite DB<br/>(Whitelist / Blacklist / Brands)")]
+        Reports[("reports.json<br/>(의심 사이트 제보 큐)")]
     end
 
     subgraph Action ["Protection Actions (차단 및 보호 조치)"]
@@ -85,6 +87,7 @@ graph TD
         Redirect["🛡️ 공식 메인 포털로 이동<br/>(Safe Redirect)"]
     end
 
+    %% 탐지 및 차단 흐름 (Detection & Kill-Switch Flow)
     CS -->|"0-A. [DOM 감지] input 필드 종속 텍스트 검사"| CS
     CS -->|"0-B. [Kill-Switch] 주민번호·비번 발견 시 사전 검증(VERIFY_KILL_SWITCH)"| BG
     BG -->|"0-C. 화이트리스트 도메인이면 안전 통과 / 아니면 즉시 차단!"| Block
@@ -96,6 +99,12 @@ graph TD
     API -->|"5. 피싱 위험도 & 공식 URL 반환"| BG
     BG -->|"6. 피싱 판정 시 차단 명령"| Block
     Block -->|"7. 공식 포털 사이트 이동 클릭"| Redirect
+
+    %% 크라우드 소싱 제보 및 자동 동기화 흐름 (v1.0.2 Crowd-Sourcing Report Flow)
+    PU -->|"8. [의심 사이트 제보] POST /api/report"| API
+    API -->|"9. 제보 내역 저장"| Reports
+    Dash <-->|"10. 실시간 제보 대기열 조회 및 blacklist.json 자동 동기화"| Reports
+    Dash -.-|"11. 검수 완료 시 blacklist.json 추가 ➔ 전역 실시간 차단"| DB
 ```
 
 - **Frontend (Chrome Extension):**
