@@ -117,7 +117,7 @@ graph TD
     - `POST /api/report` : 의심 피싱 사이트 크라우드 소싱 제보 수신 및 영구 큐(`reports.json`) 기록
     - `GET /reports` : **[v1.0.2 신규]** 관리자 및 사용자를 위한 **실시간 글래스모피즘 의심 피싱 제보 감시 대시보드 (Live Threat Queue UI)**
     - `GET /api/reports` : 관리자용 의심 피싱 사이트 미검수 대기열 조회 API (**블랙리스트 DB와 교차 대조하여 `blocked` 자동 동기화**)
-    - `GET /api/stats` : 누적 탐지 통계 및 엔진 상태 조회 (`v1.0.2-hybrid` 통합 엔드포인트)
+    - `GET /api/stats` : 누적 탐지 통계 및 엔진 상태 조회 (`v1.0.3-hybrid` 통합 엔드포인트)
   - **Algorithm & Rules:** 
     - `Sensitive Data Kill-Switch` (주민등록번호 및 카드 비밀번호 요구 100% 차단)
     - `Levenshtein` / `Jaro-Winkler` (문자열 유사도 기반 오타 도메인 탐지)
@@ -159,13 +159,14 @@ graph TD
 
 ---
 
-## 6. 개발 및 버전 배포 현황 (Current Status: v1.0.2 출시)
+## 6. 개발 및 버전 배포 현황 (Current Status: v1.0.3 출시)
 
 | 버전 | 배포 일자 | 핵심 업데이트 내역 | 배포 상태 |
 | :--- | :--- | :--- | :--- |
 | **v1.0.0** | 2026-07-06 | Chrome Web Store 최초 출시 (Manifest V3, 4단계 하이브리드 엔진) | 웹스토어 심사 완료/게시 |
 | **v1.0.1** | 2026-07-08 | 백엔드 API 버전 동기화 및 Kill-Switch 로직 폴리싱 | 로컬 및 클라우드 검증 |
-| **v1.0.2** | **2026-07-09** | **[최신 프로덕션 배포]**<br/>• **글래스모피즘 제보 대시보드(`/reports`) 신규 런칭**<br/>• `blacklist.json` 추가 시 제보 대기열 `blocked` 자동 동기화 로직 적용<br/>• 중복 `/api/stats` API 단일 통합 및 UI/UX 전면 개편 | **Render 클라우드 및 Web Store 패키징 완료** |
+| **v1.0.2** | 2026-07-09 | 글래스모피즘 제보 대시보드(`/reports`) 신규 런칭 및 `blocked` 자동 동기화 적용 | 프로덕션 배포 완료 |
+| **v1.0.3** | **2026-07-10** | **[최신 프로덕션 배포]**<br/>• `go.kr`, `or.kr` 및 PASS 5대 본인인증 팝업 도메인 화이트리스트 확장<br/>• 정부·공공기관 주민등록번호 입력 시 Kill-Switch 오탐 해결<br/>• 크롬 웹스토어 최신 패키지(`getfish-extension-v1.0.3.zip`) 릴리즈 | **Render 클라우드 및 Web Store 패키징 완료** |
 
 > 💡 **[중요 안내] 로컬 데모 HTML(`file://`) 시연 시 주의사항**
 > * 크롬 웹스토어에서 정식 다운로드한 확장 프로그램은 보안 정책상 로컬 컴퓨터 파일(`file://.../naver_pay_phishing.html`)에 대한 접근이 기본 차단(`OFF`)됩니다.

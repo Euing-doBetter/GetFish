@@ -16,7 +16,7 @@ from engine.detector import PhishingDetector
 app = FastAPI(
     title="GetFish Phishing Detection API",
     description="온라인 결제 피싱, 사칭 도메인(Typosquatting), 및 이상 행동을 탐지하는 실시간 백엔드 API",
-    version="1.0.2"
+    version="1.0.3"
 )
 
 # Enable CORS for Chrome Extension requests (<all_urls>)
@@ -71,8 +71,8 @@ def get_stats():
     return {
         "status": "active",
         "engine_status": "ONLINE",
-        "version": "1.0.2",
-        "engine_version": "v1.0.2-hybrid",
+        "version": "1.0.3",
+        "engine_version": "v1.0.3-hybrid",
         "whitelist_count": len(detector.whitelist),
         "blacklist_count": len(detector.blacklist),
         "target_brands_count": len(detector.brands),
