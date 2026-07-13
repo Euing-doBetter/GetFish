@@ -110,10 +110,11 @@
       keyword: detectedKeyword
     });
 
-    const reason = `정상적인 온라인 결제창(PG사)에서는 절대로 <strong>'${detectedKeyword}'</strong> 입력을 요구하지 않습니다.<br/>금융 개인정보 통째 탈취를 노리는 <strong>100% 악성 피싱 사이트</strong>입니다. 절대 입력하지 마세요!`;
+    const reason = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('killSwitchReason', [detectedKeyword])) || `정상적인 온라인 결제창(PG사)에서는 절대로 <strong>'${detectedKeyword}'</strong> 입력을 요구하지 않습니다.<br/>금융 개인정보 통째 탈취를 노리는 <strong>100% 악성 피싱 사이트</strong>입니다. 절대 입력하지 마세요!`;
     
     const targetUrl = getSmartRedirectUrl();
-    showPhishingModal('KILL-SWITCH 발동 (금융정보 탈취 의심)', reason, targetUrl);
+    const titleText = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('killSwitchTitle')) || 'KILL-SWITCH 발동 (금융정보 탈취 의심)';
+    showPhishingModal(titleText, reason, targetUrl);
   }
 
   /**
@@ -156,8 +157,8 @@
         if (!isOverlayShown) {
           isOverlayShown = true;
           showPhishingModal(
-            response.title || '피싱 및 사칭 사이트 감지',
-            response.reason || '공식 결제 도메인을 사칭하는 유사 도메인 또는 악성 사이트로 판별되었습니다.',
+            response.title || ((chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('phishingTitleDefault')) || '피싱 및 사칭 사이트 감지'),
+            response.reason || ((chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('phishingReasonDefault')) || '공식 결제 도메인을 사칭하는 유사 도메인 또는 악성 사이트로 판별되었습니다.'),
             response.redirectUrl || 'https://pay.naver.com'
           );
         } else if (response.redirectUrl) {
@@ -182,27 +183,32 @@
     const overlay = document.createElement('div');
     overlay.id = 'getfish-killswitch-overlay';
 
+    const modalTitle = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('modalTitle')) || '결제를 즉시 중단하세요!';
+    const modalReasonHeader = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('modalReasonHeader')) || '⚠️ 위험 탐지 사유';
+    const modalBtnSafe = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('modalBtnSafe')) || '🛡️ 안전한 공식 웹사이트로 이동하기';
+    const modalBtnIgnore = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('modalBtnIgnore')) || '위험을 감수하고 닫기 (권장하지 않음)';
+
     overlay.innerHTML = `
       <div class="getfish-modal-card">
         <div class="getfish-icon-wrapper">
           <span class="getfish-icon-text">🚨</span>
         </div>
         <div class="getfish-badge">${badgeText}</div>
-        <h2 class="getfish-title">결제를 즉시 중단하세요!</h2>
+        <h2 class="getfish-title">${modalTitle}</h2>
         
         <div class="getfish-reason-box">
           <div class="getfish-reason-title">
-            <span>⚠️</span> 위험 탐지 사유
+            <span>⚠️</span> ${modalReasonHeader.replace('⚠️ ', '')}
           </div>
           <p class="getfish-reason-text">${reasonText}</p>
         </div>
 
         <div class="getfish-btn-group">
           <button id="getfish-btn-safe-redirect" class="getfish-btn-safe">
-            <span>🛡️</span> 안전한 공식 웹사이트로 이동하기
+            <span>🛡️</span> ${modalBtnSafe.replace('🛡️ ', '')}
           </button>
           <button id="getfish-btn-close-ignore" class="getfish-btn-ignore">
-            위험을 감수하고 닫기 (권장하지 않음)
+            ${modalBtnIgnore}
           </button>
         </div>
       </div>
@@ -241,8 +247,8 @@
       if (!isOverlayShown) {
         isOverlayShown = true;
         showPhishingModal(
-          message.badgeText || '피싱 사이트 차단됨',
-          message.reason || '백엔드 검증 엔진에서 고위험 피싱 사이트로 판정하였습니다.',
+          message.badgeText || ((chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('statusTitleDanger')) || '피싱 사이트 차단됨'),
+          message.reason || ((chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('phishingReasonDefault')) || '백엔드 검증 엔진에서 고위험 피싱 사이트로 판정하였습니다.'),
           message.redirectUrl || 'https://pay.naver.com'
         );
       }

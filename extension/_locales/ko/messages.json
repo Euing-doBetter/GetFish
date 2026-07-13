@@ -1,0 +1,115 @@
+{
+  "extName": {
+    "message": "GetFish - 실시간 피싱 및 사칭 사이트 차단"
+  },
+  "extDesc": {
+    "message": "온라인 결제 시 주민등록번호/비밀번호 요구(Kill-Switch), 사칭 도메인, 유사 피싱 사이트를 실시간으로 감지하고 공식 사이트로 안내합니다."
+  },
+  "popupTitle": {
+    "message": "GetFish 보안 상태"
+  },
+  "statusTitleSafe": {
+    "message": "안전한 사이트입니다"
+  },
+  "statusDomainDefault": {
+    "message": "현재 도메인 검증 완료"
+  },
+  "statusTitleDanger": {
+    "message": "피싱 위험 차단됨"
+  },
+  "statusTitleWarning": {
+    "message": "백엔드 검증 진행 중"
+  },
+  "statusNoInfo": {
+    "message": "상태 확인 불가"
+  },
+  "domainNoTab": {
+    "message": "현재 탭 정보 없음"
+  },
+  "domainLocalDemo": {
+    "message": "로컬 데모 페이지 ($1)",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "statLabelBlocked": {
+    "message": "🛡️ 누적 피싱 차단 횟수"
+  },
+  "statUnit": {
+    "message": "회"
+  },
+  "engineLabel": {
+    "message": "⚙️ 검증 엔진:"
+  },
+  "engineVal": {
+    "message": "4단계 하이브리드 & Kill-Switch"
+  },
+  "backendLabel": {
+    "message": "🔌 백엔드 연결:"
+  },
+  "backendChecking": {
+    "message": "확인 중..."
+  },
+  "backendOnline": {
+    "message": "🟢 온라인 (Render 클라우드)"
+  },
+  "backendDelayed": {
+    "message": "🟡 응답 지연"
+  },
+  "backendOffline": {
+    "message": "🔴 오프라인 (로컬 모드)"
+  },
+  "btnReport": {
+    "message": "🚨 의심 사이트 제보하기"
+  },
+  "btnVisitWeb": {
+    "message": "공식 웹사이트 방문"
+  },
+  "reportAlertSuccess": {
+    "message": "✅ [제보 접수 완료]\nRender 클라우드 감시 서버(getfish.onrender.com)에 해당 사이트[$1]가 실시간으로 접수되었습니다!\n\n(관리자 2단계 검증 후 실시간 블랙리스트 DB에 반영됩니다.)",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "reportAlertLocal": {
+    "message": "🚨 [로컬 제보 모드]\n현재 접속 중인 사이트[$1] 제보가 로컬 큐에 임시 저장되었습니다.\n(백엔드 서버 연결 시 자동 전송됩니다.)",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "killSwitchTitle": {
+    "message": "KILL-SWITCH 발동 (금융정보 탈취 의심)"
+  },
+  "killSwitchReason": {
+    "message": "정상적인 온라인 결제창(PG사)에서는 절대로 <strong>'$1'</strong> 입력을 요구하지 않습니다.<br/>금융 개인정보 통째 탈취를 노리는 <strong>100% 악성 피싱 사이트</strong>입니다. 절대 입력하지 마세요!",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "phishingTitleDefault": {
+    "message": "피싱 및 사칭 사이트 감지"
+  },
+  "phishingReasonDefault": {
+    "message": "공식 결제 도메인을 사칭하는 유사 도메인 또는 악성 사이트로 판별되었습니다."
+  },
+  "modalTitle": {
+    "message": "결제를 즉시 중단하세요!"
+  },
+  "modalReasonHeader": {
+    "message": "⚠️ 위험 탐지 사유"
+  },
+  "modalBtnSafe": {
+    "message": "🛡️ 안전한 공식 웹사이트로 이동하기"
+  },
+  "modalBtnIgnore": {
+    "message": "위험을 감수하고 닫기 (권장하지 않음)"
+  }
+}

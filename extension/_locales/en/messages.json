@@ -1,0 +1,115 @@
+{
+  "extName": {
+    "message": "GetFish - Real-Time Phishing & Fraud Shield"
+  },
+  "extDesc": {
+    "message": "Real-time protection against checkout typosquatting, zero-day phishing, and illegal SSN/PIN harvesting."
+  },
+  "popupTitle": {
+    "message": "GetFish Security Status"
+  },
+  "statusTitleSafe": {
+    "message": "Safe & Verified Site"
+  },
+  "statusDomainDefault": {
+    "message": "Current domain verified"
+  },
+  "statusTitleDanger": {
+    "message": "Phishing Threat Blocked"
+  },
+  "statusTitleWarning": {
+    "message": "Backend Verification in Progress"
+  },
+  "statusNoInfo": {
+    "message": "Status Check Unavailable"
+  },
+  "domainNoTab": {
+    "message": "No Active Tab Info"
+  },
+  "domainLocalDemo": {
+    "message": "Local Demo Page ($1)",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "statLabelBlocked": {
+    "message": "🛡️ Total Phishing Blocked"
+  },
+  "statUnit": {
+    "message": ""
+  },
+  "engineLabel": {
+    "message": "⚙️ Engine:"
+  },
+  "engineVal": {
+    "message": "4-Stage Hybrid & Kill-Switch"
+  },
+  "backendLabel": {
+    "message": "🔌 Backend:"
+  },
+  "backendChecking": {
+    "message": "Checking..."
+  },
+  "backendOnline": {
+    "message": "🟢 Online (Render Cloud)"
+  },
+  "backendDelayed": {
+    "message": "🟡 Response Delayed"
+  },
+  "backendOffline": {
+    "message": "🔴 Offline (Local Mode)"
+  },
+  "btnReport": {
+    "message": "🚨 Report Suspicious Site"
+  },
+  "btnVisitWeb": {
+    "message": "Visit Official Website"
+  },
+  "reportAlertSuccess": {
+    "message": "✅ [Report Received]\nSite [$1] has been reported to the Render cloud monitoring server (getfish.onrender.com) in real-time!\n\n(It will be added to the live blacklist DB after Stage 2 admin verification.)",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "reportAlertLocal": {
+    "message": "🚨 [Local Report Mode]\nYour report for [$1] has been saved to the local queue.\n(It will automatically sync when the backend server reconnects.)",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "killSwitchTitle": {
+    "message": "KILL-SWITCH TRIGGERED (Financial Data Theft Suspected)"
+  },
+  "killSwitchReason": {
+    "message": "Legitimate checkout pages (payment gateways) NEVER ask for your <strong>'$1'</strong> directly.<br/>This is a <strong>100% malicious phishing site</strong> attempting to steal your sensitive financial data. Do NOT enter anything!",
+    "placeholders": {
+      "1": {
+        "content": "$1"
+      }
+    }
+  },
+  "phishingTitleDefault": {
+    "message": "Phishing & Brand Impersonation Detected"
+  },
+  "phishingReasonDefault": {
+    "message": "This domain has been identified by our hybrid detection engine as a high-risk typosquatting or malicious site impersonating an official brand."
+  },
+  "modalTitle": {
+    "message": "Stop Payment Immediately!"
+  },
+  "modalReasonHeader": {
+    "message": "⚠️ Threat Detection Details"
+  },
+  "modalBtnSafe": {
+    "message": "🛡️ Redirect to Official Verified Domain"
+  },
+  "modalBtnIgnore": {
+    "message": "Proceed at Your Own Risk (Not Recommended)"
+  }
+}

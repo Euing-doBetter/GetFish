@@ -506,10 +506,13 @@
       <span>🎣 GetFish</span>
     </a>
     <div class="nav-links">
-      <a href="/" class="nav-btn btn-outline">
+      <button id="lang-toggle" class="nav-btn btn-outline" style="cursor: pointer; padding: 8px 14px;">
+        <span id="lang-flag">🇺🇸</span> <span id="lang-text">EN</span>
+      </button>
+      <a href="/" class="nav-btn btn-outline" data-i18n="navHome">
         <span>🏠</span> 공식 홈페이지
       </a>
-      <a href="/docs" class="nav-btn btn-outline" target="_blank">
+      <a href="/docs" class="nav-btn btn-outline" target="_blank" data-i18n="navSwagger">
         <span>📚</span> Swagger API
       </a>
       <a href="https://github.com/Euing-doBetter/GetFish" class="nav-btn btn-primary" target="_blank">
@@ -520,12 +523,12 @@
 
   <main>
     <section class="dashboard-hero">
-      <span class="badge-tag"><span class="pulse-dot" style="background:#EF4444;"></span> CROWD-SOURCING THREAT INTELLIGENCE</span>
-      <h1>
+      <span class="badge-tag" data-i18n="heroBadge"><span class="pulse-dot" style="background:#EF4444;"></span> CROWD-SOURCING THREAT INTELLIGENCE</span>
+      <h1 data-i18n="heroTitle">
         실시간 의심 피싱 사이트<br>
         <span class="gradient-text">크라우드소싱 제보 감시 대기열</span>
       </h1>
-      <p class="hero-desc">
+      <p class="hero-desc" data-i18n="heroDesc">
         전 세계 GetFish 사용자들이 클릭 한 번으로 제보한 의심 사이트 목록입니다. <br>
         접수된 제보는 관리자 2단계 검증(SOP)을 거쳐 <strong>실시간 전역 블랙리스트(`blacklist.json`)</strong>에 반영되며 즉시 차단됩니다.
       </p>
@@ -533,15 +536,15 @@
 
     <section class="stats-grid">
       <div class="stat-card blue">
-        <div class="stat-title"><span>👥</span> 총 접수된 제보 건수</div>
+        <div class="stat-title" data-i18n="statTotalTitle"><span>👥</span> 총 접수된 제보 건수</div>
         <div class="stat-number" id="count-total">-</div>
       </div>
       <div class="stat-card yellow">
-        <div class="stat-title"><span>🟡</span> 2단계 검수 대기 중</div>
+        <div class="stat-title" data-i18n="statPendingTitle"><span>🟡</span> 2단계 검수 대기 중</div>
         <div class="stat-number" id="count-pending">-</div>
       </div>
       <div class="stat-card red">
-        <div class="stat-title"><span>🔴</span> 블랙리스트 전역 차단 반영</div>
+        <div class="stat-title" data-i18n="statBlockedTitle"><span>🔴</span> 블랙리스트 전역 차단 반영</div>
         <div class="stat-number" id="count-blocked">-</div>
       </div>
     </section>
@@ -549,31 +552,139 @@
     <section class="controls-bar">
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-input" placeholder="도메인, URL, 또는 제보 사유 검색...">
+        <input type="text" id="search-input" class="search-input" placeholder="도메인, URL, 또는 제보 사유 검색..." data-i18n-placeholder="searchPlaceholder">
       </div>
       <div class="filter-tabs">
-        <button class="tab-btn active" data-filter="all">전체 보기</button>
-        <button class="tab-btn" data-filter="pending_verification">🟡 검수 대기 중</button>
-        <button class="tab-btn" data-filter="blocked">🔴 차단 반영됨</button>
+        <button class="tab-btn active" data-filter="all" data-i18n="tabAll">전체 보기</button>
+        <button class="tab-btn" data-filter="pending_verification" data-i18n="tabPending">🟡 검수 대기 중</button>
+        <button class="tab-btn" data-filter="blocked" data-i18n="tabBlocked">🔴 차단 반영됨</button>
       </div>
     </section>
 
     <section id="reports-list" class="reports-container">
       <div class="empty-state">
         <span class="empty-icon">⏳</span>
-        <span class="empty-text">실시간 제보 데이터를 불러오는 중입니다...</span>
+        <span class="empty-text" data-i18n="emptyLoading">실시간 제보 데이터를 불러오는 중입니다...</span>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release (v1.0.3).</p>
+    <p data-i18n="footerText">© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release (v1.0.4).</p>
   </footer>
 
   <script>
+    const reportsI18nDict = {
+      ko: {
+        pageTitle: "GetFish | 실시간 의심 피싱 사이트 제보 대기열 (Threat Intelligence Queue)",
+        navHome: "🏠 공식 홈페이지",
+        navSwagger: "📚 Swagger API",
+        heroBadge: `<span class="pulse-dot" style="background:#EF4444;"></span> CROWD-SOURCING THREAT INTELLIGENCE`,
+        heroTitle: `실시간 의심 피싱 사이트<br><span class="gradient-text">크라우드소싱 제보 감시 대기열</span>`,
+        heroDesc: `전 세계 GetFish 사용자들이 클릭 한 번으로 제보한 의심 사이트 목록입니다. <br>접수된 제보는 관리자 2단계 검증(SOP)을 거쳐 <strong>실시간 전역 블랙리스트(\`blacklist.json\`)</strong>에 반영되며 즉시 차단됩니다.`,
+        statTotalTitle: "<span>👥</span> 총 접수된 제보 건수",
+        statPendingTitle: "<span>🟡</span> 2단계 검수 대기 중",
+        statBlockedTitle: "<span>🔴</span> 블랙리스트 전역 차단 반영",
+        searchPlaceholder: "도메인, URL, 또는 제보 사유 검색...",
+        tabAll: "전체 보기",
+        tabPending: "🟡 검수 대기 중",
+        tabBlocked: "🔴 차단 반영됨",
+        emptyLoading: "실시간 제보 데이터를 불러오는 중입니다...",
+        footerText: "© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release (v1.0.4).",
+        toggleFlag: "🇺🇸",
+        toggleText: "EN",
+        unitCase: "건",
+        statusBlocked: "🔴 전역 차단 완료",
+        statusPending: "🟡 2단계 검수 대기 중",
+        copyBtn: "복사",
+        unknownDomain: "알 수 없는 도메인",
+        reasonPrefix: "💬 <strong>사유:</strong>",
+        timePrefix: "⏰ <strong>접수일시:</strong>",
+        defaultReason: "사용자 의심 제보",
+        emptyNoReports: "현재 접수된 제보 대기열이 없습니다.",
+        emptyNoSearch: "검색 조건에 일치하는 제보 내역이 없습니다.",
+        noDate: "날짜 정보 없음",
+        relJustNow: "방금 전",
+        relMinAgo: "$1분 전",
+        relHourAgo: "$1시간 전",
+        relDayAgo: "$1일 전",
+        clipboardAlert: "도메인 '$1' 가 클립보드에 복사되었습니다!",
+        errorLoad: "백엔드 서버로부터 제보 목록을 불러올 수 없습니다.",
+        errorNet: "서버 연결 실패. 네트워크 상태를 확인해주세요."
+      },
+      en: {
+        pageTitle: "GetFish | Live Threat Intelligence & Suspicious Site Reports Queue",
+        navHome: "🏠 Official Website",
+        navSwagger: "📚 Swagger API",
+        heroBadge: `<span class="pulse-dot" style="background:#EF4444;"></span> CROWD-SOURCING THREAT INTELLIGENCE`,
+        heroTitle: `Live Suspicious Phishing Sites<br><span class="gradient-text">Crowd-Sourced Threat Queue</span>`,
+        heroDesc: `Real-time queue of suspicious domains submitted by global GetFish users via 1-click report. <br>All verified reports are automatically synced with our <strong>Global Blacklist (\`blacklist.json\`)</strong> for instant neutralization across all active installations.`,
+        statTotalTitle: "<span>👥</span> Total Reports Submitted",
+        statPendingTitle: "<span>🟡</span> Pending Verification",
+        statBlockedTitle: "<span>🔴</span> Global Blocklist Applied",
+        searchPlaceholder: "Search domain, URL, or report reason...",
+        tabAll: "View All",
+        tabPending: "🟡 Pending Verification",
+        tabBlocked: "🔴 Blocked & Verified",
+        emptyLoading: "Loading live threat report data...",
+        footerText: "© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release (v1.0.4).",
+        toggleFlag: "🇰🇷",
+        toggleText: "KR",
+        unitCase: "",
+        statusBlocked: "🔴 Globally Blocked",
+        statusPending: "🟡 Pending Verification",
+        copyBtn: "Copy",
+        unknownDomain: "Unknown Domain",
+        reasonPrefix: "💬 <strong>Reason:</strong>",
+        timePrefix: "⏰ <strong>Reported:</strong>",
+        defaultReason: "User Suspicion Report",
+        emptyNoReports: "No threat reports currently in queue.",
+        emptyNoSearch: "No reports match your search filter.",
+        noDate: "No Date Info",
+        relJustNow: "Just now",
+        relMinAgo: "$1 min ago",
+        relHourAgo: "$1 hr ago",
+        relDayAgo: "$1 d ago",
+        clipboardAlert: "Domain '$1' copied to clipboard!",
+        errorLoad: "Failed to load reports queue from backend server.",
+        errorNet: "Server connection failed. Please check your network."
+      }
+    };
+
     let allReports = [];
     let currentFilter = 'all';
     let currentSearch = '';
+    let currentLang = localStorage.getItem('getfish_lang') || (navigator.language && navigator.language.startsWith('ko') ? 'ko' : 'en');
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('getfish_lang', lang);
+      const dict = reportsI18nDict[lang] || reportsI18nDict.en;
+
+      document.title = dict.pageTitle;
+      document.getElementById('lang-flag').textContent = dict.toggleFlag;
+      document.getElementById('lang-text').textContent = dict.toggleText;
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] !== undefined) el.innerHTML = dict[key];
+      });
+
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key] !== undefined) el.placeholder = dict[key];
+      });
+
+      updateCounters();
+      renderReports();
+    }
+
+    document.getElementById('lang-toggle').addEventListener('click', () => {
+      const newLang = currentLang === 'ko' ? 'en' : 'ko';
+      applyLanguage(newLang);
+    });
+
+    applyLanguage(currentLang);
 
     // Fetch live reports and statistics
     async function loadReports() {
@@ -581,15 +692,14 @@
         const res = await fetch('/api/reports');
         if (res.ok) {
           allReports = await res.json();
-          // Sort descending by timestamp (newest first)
           allReports.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
           updateCounters();
           renderReports();
         } else {
-          showError('백엔드 서버로부터 제보 목록을 불러올 수 없습니다.');
+          showError((reportsI18nDict[currentLang] || reportsI18nDict.en).errorLoad);
         }
       } catch (e) {
-        showError('서버 연결 실패. 네트워크 상태를 확인해주세요.');
+        showError((reportsI18nDict[currentLang] || reportsI18nDict.en).errorNet);
       }
     }
 
@@ -597,14 +707,16 @@
       const total = allReports.length;
       const pending = allReports.filter(r => !r.status || r.status === 'pending_verification').length;
       const blocked = allReports.filter(r => r.status === 'blocked' || r.status === 'verified').length;
+      const dict = reportsI18nDict[currentLang] || reportsI18nDict.en;
 
-      document.getElementById('count-total').textContent = total + '건';
-      document.getElementById('count-pending').textContent = pending + '건';
-      document.getElementById('count-blocked').textContent = blocked + '건';
+      document.getElementById('count-total').textContent = total + dict.unitCase;
+      document.getElementById('count-pending').textContent = pending + dict.unitCase;
+      document.getElementById('count-blocked').textContent = blocked + dict.unitCase;
     }
 
     function renderReports() {
       const container = document.getElementById('reports-list');
+      const dict = reportsI18nDict[currentLang] || reportsI18nDict.en;
       
       const filtered = allReports.filter(report => {
         const matchesFilter = 
@@ -625,7 +737,7 @@
         container.innerHTML = `
           <div class="empty-state">
             <span class="empty-icon">📂</span>
-            <span class="empty-text">${allReports.length === 0 ? '현재 접수된 제보 대기열이 없습니다.' : '검색 조건에 일치하는 제보 내역이 없습니다.'}</span>
+            <span class="empty-text">${allReports.length === 0 ? dict.emptyNoReports : dict.emptyNoSearch}</span>
           </div>
         `;
         return;
@@ -633,7 +745,7 @@
 
       container.innerHTML = filtered.map(report => {
         const isBlocked = report.status === 'blocked' || report.status === 'verified';
-        const statusText = isBlocked ? '🔴 전역 차단 완료' : '🟡 2단계 검수 대기 중';
+        const statusText = isBlocked ? dict.statusBlocked : dict.statusPending;
         const statusClass = isBlocked ? 'status-blocked' : 'status-pending';
         const formattedDate = formatDate(report.timestamp);
 
@@ -641,14 +753,14 @@
           <div class="report-card">
             <div class="report-info">
               <div class="report-header-row">
-                <span class="domain-name">${escapeHtml(report.domain || '알 수 없는 도메인')}</span>
-                <button class="btn-copy" onclick="copyText('${escapeHtml(report.domain || '')}')">복사</button>
+                <span class="domain-name">${escapeHtml(report.domain || dict.unknownDomain)}</span>
+                <button class="btn-copy" onclick="copyText('${escapeHtml(report.domain || '')}')">${dict.copyBtn}</button>
               </div>
               <div class="report-url">🔗 ${escapeHtml(report.url || '')}</div>
               <div class="report-meta">
-                <span class="meta-item">💬 <strong>사유:</strong> ${escapeHtml(report.reason || '사용자 의심 제보')}</span>
+                <span class="meta-item">${dict.reasonPrefix} ${escapeHtml(report.reason || dict.defaultReason)}</span>
                 <span>•</span>
-                <span class="meta-item">⏰ <strong>접수일시:</strong> ${formattedDate}</span>
+                <span class="meta-item">${dict.timePrefix} ${formattedDate}</span>
               </div>
             </div>
             <div class="status-badge ${statusClass}">
@@ -661,7 +773,8 @@
     }
 
     function formatDate(isoStr) {
-      if (!isoStr) return '날짜 정보 없음';
+      const dict = reportsI18nDict[currentLang] || reportsI18nDict.en;
+      if (!isoStr) return dict.noDate;
       try {
         const date = new Date(isoStr);
         if (isNaN(date.getTime())) return isoStr;
@@ -670,10 +783,10 @@
         const diffMin = Math.floor((now - date) / (1000 * 60));
         
         let relative = '';
-        if (diffMin < 1) relative = '방금 전';
-        else if (diffMin < 60) relative = `${diffMin}분 전`;
-        else if (diffMin < 1440) relative = `${Math.floor(diffMin / 60)}시간 전`;
-        else relative = `${Math.floor(diffMin / 1440)}일 전`;
+        if (diffMin < 1) relative = dict.relJustNow;
+        else if (diffMin < 60) relative = dict.relMinAgo.replace('$1', diffMin);
+        else if (diffMin < 1440) relative = dict.relHourAgo.replace('$1', Math.floor(diffMin / 60));
+        else relative = dict.relDayAgo.replace('$1', Math.floor(diffMin / 1440));
 
         return `${date.getFullYear()}.${String(date.getMonth()+1).padStart(2,'0')}.${String(date.getDate()).padStart(2,'0')} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')} (${relative})`;
       } catch (e) {
@@ -688,8 +801,9 @@
 
     function copyText(text) {
       if (!text) return;
+      const dict = reportsI18nDict[currentLang] || reportsI18nDict.en;
       navigator.clipboard.writeText(text).then(() => {
-        alert(`도메인 '${text}' 가 클립보드에 복사되었습니다!`);
+        alert(dict.clipboardAlert.replace('$1', text));
       });
     }
 
@@ -718,7 +832,6 @@
     });
 
     loadReports();
-    // Auto refresh every 30 seconds
     setInterval(loadReports, 30000);
   </script>
 </body>

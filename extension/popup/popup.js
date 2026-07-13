@@ -4,6 +4,13 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Apply localization to elements with data-i18n attributes
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const key = el.getAttribute('data-i18n');
+    const msg = chrome.i18n && chrome.i18n.getMessage ? chrome.i18n.getMessage(key) : null;
+    if (msg) el.textContent = msg;
+  });
+
   const statusCard = document.getElementById('status-card');
   const statusIcon = document.getElementById('status-icon');
   const statusTitle = document.getElementById('status-title');
@@ -14,11 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Query active tab to display exact current domain
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const currentTab = tabs && tabs[0] ? tabs[0] : null;
-    let domain = '현재 탭 정보 없음';
+    let domain = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('domainNoTab')) || '현재 탭 정보 없음';
     if (currentTab && currentTab.url) {
       try {
         if (currentTab.url.startsWith('file://')) {
-          domain = '로컬 데모 페이지 (' + currentTab.url.split('/').pop() + ')';
+          const fileName = currentTab.url.split('/').pop();
+          const demoTemplate = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('domainLocalDemo', [fileName])) || ('로컬 데모 페이지 (' + fileName + ')');
+          domain = demoTemplate;
         } else {
           domain = new URL(currentTab.url).hostname;
         }
@@ -28,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Query Background Worker for current status of this tab
     chrome.runtime.sendMessage({ type: 'GET_CURRENT_STATUS', domain: domain }, (response) => {
       if (chrome.runtime.lastError || !response) {
-        statusTitle.textContent = '상태 확인 불가';
+        statusTitle.textContent = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('statusNoInfo')) || '상태 확인 불가';
         statusDomain.textContent = domain;
         return;
       }
@@ -43,15 +52,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (status.state === 'DANGER') {
           statusCard.className = 'status-card danger';
           statusIcon.textContent = '🔴';
-          statusTitle.textContent = '피싱 위험 차단됨';
+          statusTitle.textContent = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('statusTitleDanger')) || '피싱 위험 차단됨';
         } else if (status.state === 'WARNING') {
           statusCard.className = 'status-card warning';
           statusIcon.textContent = '🟡';
-          statusTitle.textContent = '백엔드 검증 진행 중';
+          statusTitle.textContent = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('statusTitleWarning')) || '백엔드 검증 진행 중';
         } else {
           statusCard.className = 'status-card';
           statusIcon.textContent = '🟢';
-          statusTitle.textContent = status.title || '안전한 공식 사이트';
+          statusTitle.textContent = status.title || ((chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('statusTitleSafe')) || '안전한 공식 사이트');
         }
       }
     });
@@ -61,14 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch('https://getfish.onrender.com/docs', { method: 'HEAD' })
     .then((res) => {
       if (res.ok) {
-        backendStatusEl.textContent = '🟢 온라인 (Render 클라우드)';
+        backendStatusEl.textContent = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('backendOnline')) || '🟢 온라인 (Render 클라우드)';
         backendStatusEl.style.color = '#10B981';
       } else {
-        backendStatusEl.textContent = '🟡 응답 지연';
+        backendStatusEl.textContent = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('backendDelayed')) || '🟡 응답 지연';
       }
     })
     .catch(() => {
-      backendStatusEl.textContent = '🔴 오프라인 (로컬 모드)';
+      backendStatusEl.textContent = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('backendOffline')) || '🔴 오프라인 (로컬 모드)';
       backendStatusEl.style.color = '#EF4444';
     });
 
@@ -96,10 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .then((res) => res.json())
       .then((data) => {
-        alert(`✅ [제보 접수 완료]\nRender 클라우드 감시 서버(getfish.onrender.com)에 해당 사이트[${domain}]가 실시간으로 접수되었습니다!\n\n(관리자 2단계 검증 후 실시간 블랙리스트 DB에 반영됩니다.)`);
+        const msg = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('reportAlertSuccess', [domain])) || `✅ [제보 접수 완료]\nRender 클라우드 감시 서버(getfish.onrender.com)에 해당 사이트[${domain}]가 실시간으로 접수되었습니다!\n\n(관리자 2단계 검증 후 실시간 블랙리스트 DB에 반영됩니다.)`;
+        alert(msg);
       })
       .catch(() => {
-        alert(`🚨 [로컬 제보 모드]\n현재 접속 중인 사이트[${domain}] 제보가 로컬 큐에 임시 저장되었습니다.\n(백엔드 서버 연결 시 자동 전송됩니다.)`);
+        const msg = (chrome.i18n && chrome.i18n.getMessage && chrome.i18n.getMessage('reportAlertLocal', [domain])) || `🚨 [로컬 제보 모드]\n현재 접속 중인 사이트[${domain}] 제보가 로컬 큐에 임시 저장되었습니다.\n(백엔드 서버 연결 시 자동 전송됩니다.)`;
+        alert(msg);
       });
     });
   });

@@ -406,10 +406,13 @@
       <span>🎣 GetFish</span>
     </a>
     <div class="nav-links">
-      <a href="/docs" class="nav-btn btn-outline" target="_blank">
+      <button id="lang-toggle" class="nav-btn btn-outline" style="cursor: pointer; padding: 8px 14px;">
+        <span id="lang-flag">🇺🇸</span> <span id="lang-text">EN</span>
+      </button>
+      <a href="/docs" class="nav-btn btn-outline" target="_blank" data-i18n="navSwagger">
         <span>📚</span> Swagger API
       </a>
-      <a href="/reports" class="nav-btn btn-outline" target="_blank">
+      <a href="/reports" class="nav-btn btn-outline" target="_blank" data-i18n="navReports">
         <span>🚨</span> 제보 대기열
       </a>
       <a href="https://github.com/Euing-doBetter/GetFish" class="nav-btn btn-primary" target="_blank">
@@ -420,12 +423,12 @@
 
   <main>
     <section class="hero">
-      <span class="badge-tag">⚡️ Real-Time Cyber Security Engine</span>
-      <h1>
+      <span class="badge-tag" data-i18n="heroBadge">⚡️ Real-Time Cyber Security Engine</span>
+      <h1 data-i18n="heroTitle">
         온라인 결제 피싱 및 사칭 사이트<br>
         <span class="gradient-text">0.1초 실시간 차단 솔루션</span>
       </h1>
-      <p>
+      <p data-i18n="heroDesc">
         기존 백신이 잡지 못하는 신종 오타 도메인(Zero-day Typosquatting)부터 <br>불법 주민등록번호·카드비밀번호 탈취 시도까지, 4단계 하이브리드 탐지 엔진으로<br> 완벽하게
         낚아챕니다.
       </p>
@@ -433,30 +436,30 @@
 
     <section class="stats-grid">
       <div class="stat-card green">
-        <div class="stat-title"><span>🟢</span> 공식 화이트리스트 도메인</div>
+        <div class="stat-title" data-i18n="statWlTitle"><span>🟢</span> 공식 화이트리스트 도메인</div>
         <div class="stat-number" id="wl-count">-</div>
       </div>
       <div class="stat-card red">
-        <div class="stat-title"><span>🔴</span> 악성 사칭 블랙리스트 DB</div>
+        <div class="stat-title" data-i18n="statBlTitle"><span>🔴</span> 악성 사칭 블랙리스트 DB</div>
         <div class="stat-number" id="bl-count">-</div>
       </div>
       <div class="stat-card blue">
-        <div class="stat-title"><span>👥</span> 실시간 제보 검수 대기열</div>
+        <div class="stat-title" data-i18n="statRpTitle"><span>👥</span> 실시간 제보 검수 대기열</div>
         <div class="stat-number" id="rp-count">-</div>
       </div>
     </section>
 
     <section class="demo-section">
       <div class="demo-header">
-        <h2>⚡️ AI 피싱 탐지 엔진 실시간 데모</h2>
-        <span style="color: var(--text-muted); font-size: 0.9rem;">의심되는 도메인이나 URL을 입력하고 엔진 반응을 확인하세요.</span>
+        <h2 data-i18n="demoTitle">⚡️ AI 피싱 탐지 엔진 실시간 데모</h2>
+        <span style="color: var(--text-muted); font-size: 0.9rem;" data-i18n="demoSubtitle">의심되는 도메인이나 URL을 입력하고 엔진 반응을 확인하세요.</span>
       </div>
 
       <div class="input-group">
         <input type="text" id="test-url" class="url-input"
-          placeholder="예: navr-pay-secure.com, c0upang-sale.kr, toss.im" value="c0upang-sale.kr">
+          placeholder="예: navr-pay-secure.com, c0upang-sale.kr, toss.im" value="c0upang-sale.kr" data-i18n-placeholder="urlPlaceholder">
         <button id="btn-analyze" class="btn-test">
-          <span>🔍</span> 실시간 검증하기
+          <span>🔍</span> <span data-i18n="btnAnalyzeText">실시간 검증하기</span>
         </button>
       </div>
 
@@ -468,19 +471,114 @@
   </main>
 
   <footer>
-    <p>© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release (v1.0.3).</p>
+    <p data-i18n="footerText">© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release (v1.0.4).</p>
   </footer>
 
   <script>
+    const i18nDict = {
+      ko: {
+        pageTitle: "GetFish | 온라인 피싱 및 사칭 도메인 실시간 차단 솔루션",
+        navSwagger: "📚 Swagger API",
+        navReports: "🚨 제보 대기열",
+        heroBadge: "⚡️ Real-Time Cyber Security Engine",
+        heroTitle: `온라인 결제 피싱 및 사칭 사이트<br><span class="gradient-text">0.1초 실시간 차단 솔루션</span>`,
+        heroDesc: `기존 백신이 잡지 못하는 신종 오타 도메인(Zero-day Typosquatting)부터 <br>불법 주민등록번호·카드비밀번호 탈취 시도까지, 4단계 하이브리드 탐지 엔진으로<br> 완벽하게 낚아챕니다.`,
+        statWlTitle: "<span>🟢</span> 공식 화이트리스트 도메인",
+        statBlTitle: "<span>🔴</span> 악성 사칭 블랙리스트 DB",
+        statRpTitle: "<span>👥</span> 실시간 제보 검수 대기열",
+        demoTitle: "⚡️ AI 피싱 탐지 엔진 실시간 데모",
+        demoSubtitle: "의심되는 도메인이나 URL을 입력하고 엔진 반응을 확인하세요.",
+        urlPlaceholder: "예: navr-pay-secure.com, c0upang-sale.kr, toss.im",
+        btnAnalyzeText: "실시간 검증하기",
+        btnAnalyzing: "<span>⏳</span> 분석 중...",
+        footerText: "© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release (v1.0.4).",
+        toggleFlag: "🇺🇸",
+        toggleText: "EN",
+        unitItem: "개",
+        unitCase: "건",
+        phishingAlert: "🚨 피싱 및 사칭 도메인 감지됨!",
+        reasonLabel: "차단 사유:",
+        redirectLabel: "🛡️ 안전 대피 경로:",
+        safeAlert: "🟢 안전한 공식 웹사이트입니다",
+        safeReason: "<strong>도메인 [$1]:</strong> 공식 화이트리스트 DB에 등록된 안전한 사이트이거나, 알고리즘 분석 결과 사칭 위험이 발견되지 않았습니다."
+      },
+      en: {
+        pageTitle: "GetFish | Real-Time Phishing & Brand Impersonation Shield",
+        navSwagger: "📚 Swagger API",
+        navReports: "🚨 Threat Queue",
+        heroBadge: "⚡️ Real-Time Cyber Security Engine",
+        heroTitle: `Real-Time Phishing & Brand Fraud<br><span class="gradient-text">0.1s Zero-Day Neutralization</span>`,
+        heroDesc: `From zero-day typosquatting domains that bypass traditional antiviruses to<br>illicit SSN and credit card PIN harvesting attempts, our 4-stage hybrid engine<br>intercepts and blocks threats in real-time.`,
+        statWlTitle: "<span>🟢</span> Verified Whitelist Domains",
+        statBlTitle: "<span>🔴</span> Malicious Blacklist DB",
+        statRpTitle: "<span>👥</span> Crowd-Sourced Threat Queue",
+        demoTitle: "⚡️ AI Phishing Detection Live Demo",
+        demoSubtitle: "Enter any suspicious URL or domain to test our engine response in real-time.",
+        urlPlaceholder: "e.g., navr-pay-secure.com, c0upang-sale.kr, paypal-auth.net",
+        btnAnalyzeText: "Verify in Real-Time",
+        btnAnalyzing: "<span>⏳</span> Analyzing...",
+        footerText: "© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release (v1.0.4).",
+        toggleFlag: "🇰🇷",
+        toggleText: "KR",
+        unitItem: "",
+        unitCase: "",
+        phishingAlert: "🚨 Phishing & Brand Fraud Detected!",
+        reasonLabel: "Block Reason:",
+        redirectLabel: "🛡️ Safe Official Redirect:",
+        safeAlert: "🟢 Safe Verified Official Website",
+        safeReason: "<strong>Domain [$1]:</strong> Verified by our official whitelist DB or confirmed safe by hybrid algorithmic scan."
+      }
+    };
+
+    let currentLang = localStorage.getItem('getfish_lang') || (navigator.language && navigator.language.startsWith('ko') ? 'ko' : 'en');
+    let lastLoadedStats = { whitelist_count: '-', blacklist_count: '-', report_count: '-' };
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('getfish_lang', lang);
+      const dict = i18nDict[lang] || i18nDict.en;
+
+      document.title = dict.pageTitle;
+      document.getElementById('lang-flag').textContent = dict.toggleFlag;
+      document.getElementById('lang-text').textContent = dict.toggleText;
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] !== undefined) el.innerHTML = dict[key];
+      });
+
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key] !== undefined) el.placeholder = dict[key];
+      });
+
+      // Update stat counters with localized units
+      if (lastLoadedStats.whitelist_count !== '-') {
+        document.getElementById('wl-count').textContent = lastLoadedStats.whitelist_count + dict.unitItem;
+        document.getElementById('bl-count').textContent = lastLoadedStats.blacklist_count + dict.unitItem;
+        document.getElementById('rp-count').textContent = lastLoadedStats.report_count + dict.unitCase;
+      }
+    }
+
+    document.getElementById('lang-toggle').addEventListener('click', () => {
+      const newLang = currentLang === 'ko' ? 'en' : 'ko';
+      applyLanguage(newLang);
+    });
+
+    // Apply language immediately on load
+    applyLanguage(currentLang);
+
     // Fetch live statistics from backend
     async function loadStats() {
       try {
         const res = await fetch('/api/stats');
         if (res.ok) {
           const data = await res.json();
-          document.getElementById('wl-count').textContent = data.whitelist_count + '개';
-          document.getElementById('bl-count').textContent = data.blacklist_count + '개';
-          document.getElementById('rp-count').textContent = data.report_count + '건';
+          lastLoadedStats = data;
+          const dict = i18nDict[currentLang] || i18nDict.en;
+          document.getElementById('wl-count').textContent = data.whitelist_count + dict.unitItem;
+          document.getElementById('bl-count').textContent = data.blacklist_count + dict.unitItem;
+          document.getElementById('rp-count').textContent = data.report_count + dict.unitCase;
         }
       } catch (e) {
         console.error('Stats load error:', e);
@@ -504,9 +602,10 @@
 
       const btn = document.getElementById('btn-analyze');
       const resultBox = document.getElementById('result-box');
+      const dict = i18nDict[currentLang] || i18nDict.en;
 
       btn.disabled = true;
-      btn.innerHTML = '<span>⏳</span> 분석 중...';
+      btn.innerHTML = dict.btnAnalyzing;
       resultBox.style.display = 'none';
 
       try {
@@ -516,7 +615,7 @@
           body: JSON.stringify({
             url: url,
             domain: domain,
-            title: '라이브 데모 테스트 페이지',
+            title: 'Live Demo Test Page',
             formActions: [],
             inputTypes: []
           })
@@ -527,25 +626,23 @@
 
         if (result.is_phishing) {
           resultBox.className = 'result-card phishing';
-          document.getElementById('result-title').innerHTML = '🚨 ' + (result.badge_text || '피싱 및 사칭 도메인 감지됨!');
+          document.getElementById('result-title').innerHTML = '🚨 ' + (currentLang === 'ko' ? (result.badge_text || '피싱 및 사칭 도메인 감지됨!') : dict.phishingAlert);
           document.getElementById('result-title').style.color = '#EF4444';
           document.getElementById('result-reason').innerHTML = `
-            <strong>차단 사유:</strong> ${result.reason}<br>
-            <span style="color: #60A5FA; display: inline-block; margin-top: 8px;">🛡️ 안전 대피 경로: <code>${result.redirect_url || 'https://pay.naver.com'}</code></span>
+            <strong>${dict.reasonLabel}</strong> ${result.reason}<br>
+            <span style="color: #60A5FA; display: inline-block; margin-top: 8px;">${dict.redirectLabel} <code>${result.redirect_url || 'https://pay.naver.com'}</code></span>
           `;
         } else {
           resultBox.className = 'result-card safe';
-          document.getElementById('result-title').innerHTML = '🟢 안전한 공식 웹사이트입니다';
+          document.getElementById('result-title').innerHTML = dict.safeAlert;
           document.getElementById('result-title').style.color = '#10B981';
-          document.getElementById('result-reason').innerHTML = `
-            <strong>도메인 [${domain}]:</strong> 공식 화이트리스트 DB에 등록된 안전한 사이트이거나, 알고리즘 분석 결과 사칭 위험이 발견되지 않았습니다.
-          `;
+          document.getElementById('result-reason').innerHTML = dict.safeReason.replace('$1', domain);
         }
       } catch (e) {
-        alert('API 서버와 통신할 수 없습니다.');
+        alert(currentLang === 'ko' ? 'API 서버와 통신할 수 없습니다.' : 'Failed to connect to API server.');
       } finally {
         btn.disabled = false;
-        btn.innerHTML = '<span>🔍</span> 실시간 검증하기';
+        btn.innerHTML = `<span>🔍</span> <span data-i18n="btnAnalyzeText">${dict.btnAnalyzeText}</span>`;
       }
     });
   </script>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GetFish 보안 상태</title>
+  <title data-i18n="popupTitle">GetFish 보안 상태</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -18,34 +18,34 @@
 
     <main class="status-card" id="status-card">
       <div class="status-icon" id="status-icon">🟢</div>
-      <h2 class="status-title" id="status-title">안전한 사이트입니다</h2>
-      <p class="status-domain" id="status-domain">현재 도메인 검증 완료</p>
+      <h2 class="status-title" id="status-title" data-i18n="statusTitleSafe">안전한 사이트입니다</h2>
+      <p class="status-domain" id="status-domain" data-i18n="statusDomainDefault">현재 도메인 검증 완료</p>
     </main>
 
     <section class="stats-section">
       <div class="stat-box">
-        <span class="stat-label">🛡️ 누적 피싱 차단 횟수</span>
-        <span class="stat-value" id="stat-blocked-count">0</span><span class="stat-unit">회</span>
+        <span class="stat-label" data-i18n="statLabelBlocked">🛡️ 누적 피싱 차단 횟수</span>
+        <span class="stat-value" id="stat-blocked-count">0</span><span class="stat-unit" data-i18n="statUnit">회</span>
       </div>
     </section>
 
     <section class="engine-info">
       <div class="info-row">
-        <span>⚙️ 검증 엔진:</span>
-        <span class="info-val">4단계 하이브리드 & Kill-Switch</span>
+        <span data-i18n="engineLabel">⚙️ 검증 엔진:</span>
+        <span class="info-val" data-i18n="engineVal">4단계 하이브리드 & Kill-Switch</span>
       </div>
       <div class="info-row">
-        <span>🔌 백엔드 연결:</span>
-        <span class="info-val" id="backend-status-text">확인 중...</span>
+        <span data-i18n="backendLabel">🔌 백엔드 연결:</span>
+        <span class="info-val" id="backend-status-text" data-i18n="backendChecking">확인 중...</span>
       </div>
     </section>
 
     <footer class="popup-footer">
       <button class="btn-report" id="btn-report">
-        <span>🚨</span> 의심 사이트 제보하기
+        <span>🚨</span> <span data-i18n="btnReport">의심 사이트 제보하기</span>
       </button>
       <button class="btn-dashboard" id="btn-dashboard">
-        공식 웹사이트 방문
+        <span data-i18n="btnVisitWeb">공식 웹사이트 방문</span>
       </button>
     </footer>
   </div>

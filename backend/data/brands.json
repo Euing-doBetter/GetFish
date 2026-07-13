@@ -41,6 +41,76 @@
       "official_domains": ["kcp.co.kr", "nhnkcp.co.kr", "payco.com"],
       "keywords": ["kcp", "nhn kcp", "nhnkcp", "페이코", "payco"],
       "redirect_url": "https://www.kcp.co.kr"
+    },
+    {
+      "id": "paypal",
+      "name": "PayPal",
+      "official_domains": ["paypal.com", "www.paypal.com", "pypl.com", "paypalobjects.com", "login.paypal.com", "checkout.paypal.com"],
+      "keywords": ["paypal", "페이팔", "pypl", "paypal checkout", "paypal verification", "paypal security"],
+      "redirect_url": "https://www.paypal.com"
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon / Amazon Pay",
+      "official_domains": ["amazon.com", "www.amazon.com", "pay.amazon.com", "aws.amazon.com", "amazon.co.uk", "amazon.co.jp"],
+      "keywords": ["amazon", "amazonpay", "amazon pay", "아마존", "aws login", "amazon prime", "amzn billing"],
+      "redirect_url": "https://www.amazon.com"
+    },
+    {
+      "id": "chase",
+      "name": "Chase Bank (JPMorgan Chase)",
+      "official_domains": ["chase.com", "www.chase.com", "jpmorgan.com", "jpmorganchase.com", "secure01b.chase.com"],
+      "keywords": ["chase", "chase bank", "jpmorgan", "체이스", "chase online", "chase verification", "chase security"],
+      "redirect_url": "https://www.chase.com"
+    },
+    {
+      "id": "bankofamerica",
+      "name": "Bank of America (BOA)",
+      "official_domains": ["bankofamerica.com", "www.bankofamerica.com", "bofa.com", "secure.bankofamerica.com"],
+      "keywords": ["bank of america", "bankofamerica", "bofa", "bofa online", "뱅크오브아메리카", "bofa security"],
+      "redirect_url": "https://www.bankofamerica.com"
+    },
+    {
+      "id": "apple",
+      "name": "Apple / Apple Pay",
+      "official_domains": ["apple.com", "www.apple.com", "icloud.com", "appleid.apple.com", "pay.apple.com"],
+      "keywords": ["apple", "appleid", "apple pay", "icloud", "애플", "애플아이디", "애플페이", "apple billing"],
+      "redirect_url": "https://www.apple.com"
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe Payments",
+      "official_domains": ["stripe.com", "www.stripe.com", "checkout.stripe.com", "billing.stripe.com", "js.stripe.com"],
+      "keywords": ["stripe", "stripe checkout", "stripe payments", "스트라이프", "stripe billing"],
+      "redirect_url": "https://www.stripe.com"
+    },
+    {
+      "id": "wellsfargo",
+      "name": "Wells Fargo Bank",
+      "official_domains": ["wellsfargo.com", "www.wellsfargo.com", "connect.wellsfargo.com"],
+      "keywords": ["wells fargo", "wellsfargo", "웰스파고", "wellsfargo security"],
+      "redirect_url": "https://www.wellsfargo.com"
+    },
+    {
+      "id": "coinbase",
+      "name": "Coinbase Crypto Exchange",
+      "official_domains": ["coinbase.com", "www.coinbase.com", "pro.coinbase.com", "login.coinbase.com"],
+      "keywords": ["coinbase", "coinbase pro", "coinbase wallet", "코인베이스", "coinbase verification"],
+      "redirect_url": "https://www.coinbase.com"
+    },
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "official_domains": ["netflix.com", "www.netflix.com", "help.netflix.com"],
+      "keywords": ["netflix", "netflix membership", "넷플릭스", "넷플릭스 결제", "netflix account update"],
+      "redirect_url": "https://www.netflix.com"
+    },
+    {
+      "id": "ebay",
+      "name": "eBay Marketplace",
+      "official_domains": ["ebay.com", "www.ebay.com", "signin.ebay.com", "pay.ebay.com"],
+      "keywords": ["ebay", "ebay signin", "ebay payment", "이베이", "ebay security"],
+      "redirect_url": "https://www.ebay.com"
     }
   ]
 }
