@@ -222,9 +222,17 @@
       height: 4px;
     }
 
-    .stat-card.blue::before { background: var(--primary); }
-    .stat-card.yellow::before { background: var(--accent-yellow); }
-    .stat-card.red::before { background: var(--accent-red); }
+    .stat-card.blue::before {
+      background: var(--primary);
+    }
+
+    .stat-card.yellow::before {
+      background: var(--accent-yellow);
+    }
+
+    .stat-card.red::before {
+      background: var(--accent-red);
+    }
 
     .stat-title {
       font-size: 0.9rem;
@@ -444,13 +452,30 @@
       display: inline-block;
     }
 
-    .status-pending .pulse-dot { background: #FBBF24; animation: pulse 1.5s infinite; }
-    .status-blocked .pulse-dot { background: #EF4444; }
+    .status-pending .pulse-dot {
+      background: #FBBF24;
+      animation: pulse 1.5s infinite;
+    }
+
+    .status-blocked .pulse-dot {
+      background: #EF4444;
+    }
 
     @keyframes pulse {
-      0% { transform: scale(0.95); opacity: 0.8; }
-      50% { transform: scale(1.3); opacity: 1; }
-      100% { transform: scale(0.95); opacity: 0.8; }
+      0% {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
+
+      50% {
+        transform: scale(1.3);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
     }
 
     /* Empty State */
@@ -477,8 +502,15 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     footer {
@@ -491,9 +523,17 @@
     }
 
     @media (max-width: 768px) {
-      h1 { font-size: 2.1rem; }
-      .report-card { grid-template-columns: 1fr; }
-      .status-badge { align-self: flex-start; }
+      h1 {
+        font-size: 2.1rem;
+      }
+
+      .report-card {
+        grid-template-columns: 1fr;
+      }
+
+      .status-badge {
+        align-self: flex-start;
+      }
     }
   </style>
 </head>
@@ -523,7 +563,8 @@
 
   <main>
     <section class="dashboard-hero">
-      <span class="badge-tag" data-i18n="heroBadge"><span class="pulse-dot" style="background:#EF4444;"></span> CROWD-SOURCING THREAT INTELLIGENCE</span>
+      <span class="badge-tag" data-i18n="heroBadge"><span class="pulse-dot" style="background:#EF4444;"></span>
+        CROWD-SOURCING THREAT INTELLIGENCE</span>
       <h1 data-i18n="heroTitle">
         실시간 의심 피싱 사이트<br>
         <span class="gradient-text">크라우드소싱 제보 감시 대기열</span>
@@ -552,7 +593,8 @@
     <section class="controls-bar">
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-input" placeholder="도메인, URL, 또는 제보 사유 검색..." data-i18n-placeholder="searchPlaceholder">
+        <input type="text" id="search-input" class="search-input" placeholder="도메인, URL, 또는 제보 사유 검색..."
+          data-i18n-placeholder="searchPlaceholder">
       </div>
       <div class="filter-tabs">
         <button class="tab-btn active" data-filter="all" data-i18n="tabAll">전체 보기</button>
@@ -570,7 +612,8 @@
   </main>
 
   <footer>
-    <p data-i18n="footerText">© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release (v1.0.4).</p>
+    <p data-i18n="footerText">© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store
+      Release (v1.1.0).</p>
   </footer>
 
   <script>
@@ -590,7 +633,7 @@
         tabPending: "🟡 검수 대기 중",
         tabBlocked: "🔴 차단 반영됨",
         emptyLoading: "실시간 제보 데이터를 불러오는 중입니다...",
-        footerText: "© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release (v1.0.4).",
+        footerText: "© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release (v1.1.0).",
         toggleFlag: "🇺🇸",
         toggleText: "EN",
         unitCase: "건",
@@ -627,7 +670,7 @@
         tabPending: "🟡 Pending Verification",
         tabBlocked: "🔴 Blocked & Verified",
         emptyLoading: "Loading live threat report data...",
-        footerText: "© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release (v1.0.4).",
+        footerText: "© 2026 GetFish Security Solution. Built for Internship Evaluation & Chrome Web Store Release (v1.1.0).",
         toggleFlag: "🇰🇷",
         toggleText: "KR",
         unitCase: "",
@@ -717,15 +760,15 @@
     function renderReports() {
       const container = document.getElementById('reports-list');
       const dict = reportsI18nDict[currentLang] || reportsI18nDict.en;
-      
+
       const filtered = allReports.filter(report => {
-        const matchesFilter = 
-          currentFilter === 'all' || 
+        const matchesFilter =
+          currentFilter === 'all' ||
           (currentFilter === 'pending_verification' && (!report.status || report.status === 'pending_verification')) ||
           (currentFilter === 'blocked' && (report.status === 'blocked' || report.status === 'verified'));
 
         const q = currentSearch.toLowerCase();
-        const matchesSearch = !q || 
+        const matchesSearch = !q ||
           (report.domain && report.domain.toLowerCase().includes(q)) ||
           (report.url && report.url.toLowerCase().includes(q)) ||
           (report.reason && report.reason.toLowerCase().includes(q));
@@ -778,17 +821,17 @@
       try {
         const date = new Date(isoStr);
         if (isNaN(date.getTime())) return isoStr;
-        
+
         const now = new Date();
         const diffMin = Math.floor((now - date) / (1000 * 60));
-        
+
         let relative = '';
         if (diffMin < 1) relative = dict.relJustNow;
         else if (diffMin < 60) relative = dict.relMinAgo.replace('$1', diffMin);
         else if (diffMin < 1440) relative = dict.relHourAgo.replace('$1', Math.floor(diffMin / 60));
         else relative = dict.relDayAgo.replace('$1', Math.floor(diffMin / 1440));
 
-        return `${date.getFullYear()}.${String(date.getMonth()+1).padStart(2,'0')}.${String(date.getDate()).padStart(2,'0')} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')} (${relative})`;
+        return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')} (${relative})`;
       } catch (e) {
         return isoStr;
       }

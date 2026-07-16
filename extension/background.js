@@ -34,6 +34,26 @@ async function loadLocalLists() {
 loadLocalLists();
 
 /**
+ * Helper to check if domain matches any whitelisted official domain or its subdomains
+ */
+function isWhitelistedDomain(domain) {
+  if (!domain) return false;
+  const clean = domain.toLowerCase().trim();
+  return whitelist.some((w) => {
+    const wClean = w.toLowerCase().trim();
+    if (!wClean) return false;
+    return (
+      clean === wClean ||
+      clean.endsWith('.' + wClean) ||
+      (wClean === 'korail.com' && clean.includes('korail')) ||
+      (wClean === 'srail.kr' && clean.includes('srail')) ||
+      (wClean === 'ksnet.co.kr' && clean.includes('ksnet')) ||
+      (wClean === 'inicis.com' && clean.includes('inicis'))
+    );
+  });
+}
+
+/**
  * Increment blocked counter and update extension badge
  */
 function recordPhishingBlock(domain) {
@@ -50,8 +70,8 @@ function recordPhishingBlock(domain) {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'VERIFY_KILL_SWITCH') {
     const domain = message.domain || (sender.tab && sender.tab.url ? new URL(sender.tab.url).hostname : '');
-    // If domain matches whitelist (e.g. pay.naver.com, orders.pay.naver.com, gov.kr), DO NOT trigger Kill-Switch!
-    if (whitelist.some((w) => domain.endsWith(w))) {
+    // If domain matches whitelist (e.g. pay.naver.com, letskorail.com, orders.pay.naver.com, gov.kr), DO NOT trigger Kill-Switch!
+    if (isWhitelistedDomain(domain)) {
       console.log(`[GetFish Background] Kill-switch keyword "${message.keyword}" found on whitelisted domain (${domain}). Safe pass!`);
       sendResponse({ shouldBlock: false });
     } else {
@@ -78,7 +98,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       state = 'DANGER';
       label = '🔴 피싱 사이트 차단됨';
       title = '피싱 위험 차단됨';
-    } else if (domain && whitelist.some((w) => domain.endsWith(w))) {
+    } else if (domain && isWhitelistedDomain(domain)) {
       state = 'SAFE';
       label = '🟢 안전한 공식 사이트';
       title = '안전한 공식 사이트';
@@ -101,7 +121,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     currentStatus = { state: 'SAFE', label: '🟢 안전한 사이트', domain };
 
     // Step 1: Check Local Whitelist (Ultra-fast pass)
-    if (whitelist.some((w) => domain.endsWith(w))) {
+    if (isWhitelistedDomain(domain)) {
       console.log(`[GetFish] ${domain} matches local Whitelist. Safe!`);
       chrome.action.setBadgeText({ text: '' });
       sendResponse({ status: 'SAFE' });
