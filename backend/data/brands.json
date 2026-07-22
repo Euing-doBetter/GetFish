@@ -111,6 +111,13 @@
       "official_domains": ["ebay.com", "www.ebay.com", "signin.ebay.com", "pay.ebay.com"],
       "keywords": ["ebay", "ebay signin", "ebay payment", "이베이", "ebay security"],
       "redirect_url": "https://www.ebay.com"
+    },
+    {
+      "id": "yanolja",
+      "name": "야놀자 (Yanolja)",
+      "official_domains": ["yanolja.com", "www.yanolja.com"],
+      "keywords": ["야놀자", "yanolja", "야놀자 결제", "yanolja pay"],
+      "redirect_url": "https://www.yanolja.com"
     }
   ]
 }
