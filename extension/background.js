@@ -118,6 +118,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'ANALYZE_PAGE') {
     const data = message.data || {};
     const domain = data.domain || '';
+    const fullUrl = data.url || `https://${domain}`;
     currentStatus = { state: 'SAFE', label: '🟢 안전한 사이트', domain };
 
     // Step 1: Check Local Whitelist (Ultra-fast pass)
@@ -148,18 +149,59 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       return true;
     }
 
-    // Step 3 & 4: Call Python FastAPI Backend for Levenshtein Typosquatting & Anomaly Analysis
-    currentStatus = { state: 'WARNING', label: '🟡 백엔드 실시간 검증 중', domain };
-    chrome.action.setBadgeBackgroundColor({ color: '#F59E0B' });
-    chrome.action.setBadgeText({ text: '🟡' });
+    // Step 2.5 & 3 & 4: Async Analysis (Threat Intel + Backend)
+    (async () => {
+      // [보안 솔루션 연계] 1. NGFW URL 필터링 / 위협 인텔리전스(Threat Intelligence) 개념 적용
+      // Google Safe Browsing API를 사용하여 실시간 유해 사이트 DB 대조
+      const GOOGLE_SAFE_BROWSING_API_KEY = 'YOUR_API_KEY_HERE'; // TODO: 구글 클라우드에서 발급받은 API 키 입력
+      
+      if (GOOGLE_SAFE_BROWSING_API_KEY !== 'YOUR_API_KEY_HERE') {
+        try {
+          const safeBrowsingRes = await fetch(`https://safebrowsing.googleapis.com/v4/threatMatches:find?key=${GOOGLE_SAFE_BROWSING_API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              client: { clientId: "getfish-extension", clientVersion: "1.0.0" },
+              threatInfo: {
+                threatTypes: ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE"],
+                platformTypes: ["ANY_PLATFORM"],
+                threatEntryTypes: ["URL"],
+                threatEntries: [{ url: fullUrl }]
+              }
+            })
+          });
+          const safeBrowsingData = await safeBrowsingRes.json();
+          
+          // 위협 DB에 일치하는 항목이 있을 경우 즉시 차단 (방화벽의 차단 룰과 동일한 역할)
+          if (safeBrowsingData && safeBrowsingData.matches && safeBrowsingData.matches.length > 0) {
+            console.warn(`[GetFish] Threat Intelligence: ${domain} flagged by Google Safe Browsing!`);
+            recordPhishingBlock(domain);
+            sendResponse({
+              status: 'PHISHING',
+              title: '위협 인텔리전스(Threat Intel) 기반 차단',
+              reason: `접속하신 <strong>${domain}</strong>은(는) 글로벌 보안 DB에 악성(피싱/멀웨어)으로 등록된 위험 사이트입니다. (NGFW URL 필터링 아키텍처 적용)`,
+              redirectUrl: 'https://pay.naver.com'
+            });
+            return; // 백엔드 호출 없이 즉시 종료
+          }
+        } catch (err) {
+          console.error('[GetFish] Safe Browsing API 연동 에러:', err);
+        }
+      }
 
-    fetch('https://getfish.onrender.com/api/analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-      .then((res) => res.json())
-      .then((apiResult) => {
+      // Step 3 & 4: Call Python FastAPI Backend for Levenshtein Typosquatting & Anomaly Analysis
+      currentStatus = { state: 'WARNING', label: '🟡 백엔드 실시간 검증 중', domain };
+      chrome.action.setBadgeBackgroundColor({ color: '#F59E0B' });
+      chrome.action.setBadgeText({ text: '🟡' });
+
+      try {
+        const res = await fetch('https://getfish.onrender.com/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const apiResult = await res.json();
+
         if (apiResult.is_phishing) {
           recordPhishingBlock(domain);
           sendResponse({
@@ -173,14 +215,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           chrome.action.setBadgeText({ text: '' });
           sendResponse({ status: 'SAFE' });
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         console.log('[GetFish] Backend API offline or error (using fallback local check):', err.message);
         // Fallback: If backend is offline, assume safe unless in blacklist
         currentStatus = { state: 'SAFE', label: '🟢 로컬 검증 완료 (백엔드 오프라인)', domain };
         chrome.action.setBadgeText({ text: '' });
         sendResponse({ status: 'SAFE' });
-      });
+      }
+    })();
 
     return true; // Keep message channel open for async fetch
   }
