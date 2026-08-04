@@ -115,6 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Donate Button
+  document.getElementById('btn-donate').addEventListener('click', () => {
+    chrome.tabs.create({ url: 'https://ko-fi.com/euing' });
+  });
+
   // Visit Official Site Button
   document.getElementById('btn-dashboard').addEventListener('click', () => {
     chrome.tabs.create({ url: 'https://getfish.onrender.com' });

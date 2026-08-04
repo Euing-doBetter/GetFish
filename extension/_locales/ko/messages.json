@@ -67,6 +67,9 @@
   "btnVisitWeb": {
     "message": "공식 웹사이트 방문"
   },
+  "btnDonate": {
+    "message": "개발자에게 커피 한 잔 사주기 ☕"
+  },
   "reportAlertSuccess": {
     "message": "✅ [제보 접수 완료]\nRender 클라우드 감시 서버(getfish.onrender.com)에 해당 사이트[$1]가 실시간으로 접수되었습니다!\n\n(관리자 2단계 검증 후 실시간 블랙리스트 DB에 반영됩니다.)",
     "placeholders": {

@@ -67,6 +67,9 @@
   "btnVisitWeb": {
     "message": "Visit Official Website"
   },
+  "btnDonate": {
+    "message": "Buy me a coffee ☕"
+  },
   "reportAlertSuccess": {
     "message": "✅ [Report Received]\nSite [$1] has been reported to the Render cloud monitoring server (getfish.onrender.com) in real-time!\n\n(It will be added to the live blacklist DB after Stage 2 admin verification.)",
     "placeholders": {
